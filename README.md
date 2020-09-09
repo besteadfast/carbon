@@ -1,2 +1,3 @@
 # boilerplate
-Our default scaffolding project - Craft CMS, Docker, Webpack
+
+Steadfast's starter project - Craft CMS, Webpack, and Docker
