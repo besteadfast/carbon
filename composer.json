@@ -19,7 +19,7 @@
 		"post-create-project-cmd": [
 			"@php -r \"unlink('README.md');\"",
 			"@php -r \"unlink('LICENSE');\"",
-			"@php -r \"copy('.env.example', '.env');\"",
+			"@php -r \"rename('.env.example', '.env');\"",
 			"@php -r \"unlink('composer.json');\"",
 			"@php -r \"rename('composer.json.project', 'composer.json');\"",
 			"@composer install -o",
