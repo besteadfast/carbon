@@ -2,21 +2,47 @@ FROM php:7.4-fpm-alpine
 
 # https://github.com/docker-library/php/issues/105#issuecomment-249716758
 RUN set -ex \
-    && apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS imagemagick-dev libtool \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick \
-    && apk add --no-cache imagemagick \
-    && apk del .phpize-deps \
- 	&& apk add --no-cache freetype libpng libjpeg-turbo \
-	&& apk add --no-cache --virtual .gd-deps freetype-dev libpng-dev libjpeg-turbo-dev \
-	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-  	&& docker-php-ext-install -j$(nproc) gd \
-	&& apk del .gd-deps
+	&& apk update \
+	# Install dependencies
+	&& apk add --no-cache --virtual .build-deps \
+		$PHPIZE_DEPS \
+		freetype-dev \
+		icu-dev \
+		imagemagick-dev \
+		libjpeg-turbo-dev \
+		libpng-dev \
+		libtool \
+		libzip-dev \
+	&& apk add --no-cache \
+		freetype \
+		icu \
+		imagemagick \
+		libjpeg-turbo \
+		libpng \
+		libzip \
+		zip \
+	# Pecl extensions
+	&& pecl install \
+		imagick \
+	# Configure extensions
+	&& docker-php-ext-configure \
+		gd --with-freetype --with-jpeg \
+	# Install extensions
+	&& docker-php-ext-install -j$(nproc) \
+		gd \
+		intl \
+		pdo_mysql \
+		zip \
+	# Enable extensions
+    && docker-php-ext-enable \
+		imagick \
+	# Remove dependencies
+	&& apk del .build-deps
 
-RUN set -ex \
-    && echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/craft-cms.ini \
+RUN \
+    echo "memory_limit = 256M" > /usr/local/etc/php/conf.d/craft-cms.ini \
     && echo "max_execution_time = 120" >> /usr/local/etc/php/conf.d/craft-cms.ini \
-	&& echo "upload_max_filesize = 20M" > /usr/local/etc/php/conf.d/craft-cms.ini \
+	&& echo "upload_max_filesize = 20M" >> /usr/local/etc/php/conf.d/craft-cms.ini \
     && echo "max_input_vars = 1000" >> /usr/local/etc/php/conf.d/craft-cms.ini \
     && echo "post_max_size = 8M" >> /usr/local/etc/php/conf.d/craft-cms.ini
 

@@ -27,8 +27,8 @@ services:
     expose:
       - "9000"
     init: true
-    links:
-      - mariadb
+    # links:
+    #   - mariadb
       # - redis
     volumes:
       - cpresources:/var/www/project/web/cpresources
