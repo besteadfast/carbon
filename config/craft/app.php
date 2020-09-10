@@ -20,9 +20,28 @@
 use craft\helpers\App;
 
 return [
-    'id' => App::env('APP_ID') ?: 'CraftCMS',
-    'modules' => [
-        'my-module' => \modules\Module::class,
+	'id' => App::env('APP_ID') ?: 'CraftCMS',
+	'modules' => [],
+	'bootstrap' => [],
+	'components' => [
+        'cache' => [
+            'class' => yii\redis\Cache::class,
+            'defaultDuration' => 86400,
+            'keyPrefix' => getenv('REDIS_KEY_PREFIX'),
+        ],
+		'deprecator' => [
+			'throwExceptions' => App::env('DEV_MODE'),
+		],
+		'redis' => [
+			'class' => yii\redis\Connection::class,
+			'hostname' => getenv('REDIS_HOST'),
+			'port' => getenv('REDIS_PORT'),
+			'password' => getenv('REDIS_PASSWORD'),
+		],
+		'session' => function() {
+			$config = craft\helpers\App::sessionConfig();
+			$config['class'] = yii\redis\Session::class;
+			return Craft::createObject($config);
+		},
     ],
-    //'bootstrap' => ['my-module'],
 ];
