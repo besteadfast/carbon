@@ -22,7 +22,6 @@
 			"@php -r \"rename('.env.example', '.env');\"",
 			"@php -r \"unlink('composer.json');\"",
 			"@php -r \"rename('composer.json.project', 'composer.json');\"",
-			"@composer install -o",
 			"@php craft setup/welcome"
 		]
 	}
