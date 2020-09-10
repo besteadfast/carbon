@@ -49,18 +49,18 @@ RUN \
 RUN set -ex \
 	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 
-WORKDIR /var/www/project
+WORKDIR /app
 
 # Create the storage directory and make it writeable by PHP
-RUN mkdir -p /var/www/project/storage && \
-    mkdir -p /var/www/project/storage/runtime && \
-    chown -R www-data:www-data /var/www/project/storage
+RUN mkdir -p /app/storage && \
+    mkdir -p /app/storage/runtime && \
+    chown -R www-data:www-data /app/storage
 
 # Create the cpresources directory and make it writeable by PHP
-RUN mkdir -p /var/www/project/web/cpresources && \
-    chown -R www-data:www-data /var/www/project/web/cpresources
+RUN mkdir -p /app/web/cpresources && \
+    chown -R www-data:www-data /app/web/cpresources
 
-WORKDIR /var/www/project
+WORKDIR /app
 
 # Force permissions, update Craft, and start php-fpm
 
@@ -73,8 +73,8 @@ WORKDIR /var/www/project
 # when working with teams or multiple environments
 CMD composer install --no-scripts --optimize-autoloader --no-interaction \
     && \
-    chown -R www-data:www-data /var/www/project/vendor \
+    chown -R www-data:www-data /app/vendor \
     && \
-    chown -R www-data:www-data /var/www/project/storage \
+    chown -R www-data:www-data /app/storage \
     && \
     php-fpm
