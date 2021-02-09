@@ -17,7 +17,7 @@
     "platform": {
       "php": "7.2.5"
     }
-  }
+  },
   "scripts": {
 		"craft-update": [
 			"@php craft install/check && php craft migrate/all || return 0",
