@@ -7,18 +7,10 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
 	context: path.resolve(__dirname, '../../src'),
-	entry: {
-		app: [
-			'/js/app/main.js',
-			'../node_modules/microblink/dist/microblink.js',
-			'/css/app/main.pcss',
-		],
-		site: [
-			'/js/site/main.js',
-			'/js/site/vendor/modernizr.js',
-			'/css/site/main.less',
-		],
-	},
+	entry: [
+		'/js/main.js',
+		'/css/main.pcss',
+	],
 	output: {
 		filename: path.join('./js', '[name].js'),
 		path: path.resolve(__dirname, '../../web/dist'),
