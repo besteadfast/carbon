@@ -4,7 +4,6 @@ services:
   nginx:
     image: besteadfast/stallion-nginx:latest
     init: true
-    env_file: .env
     depends_on:
       - "php"
     ports:
@@ -15,10 +14,8 @@ services:
   php:
     image: besteadfast/stallion-php:7.4
     init: true
-    env_file: .env
     depends_on:
       - "mariadb"
-      # - "redis"
     expose:
       - "9000"
     volumes:
@@ -30,7 +27,6 @@ services:
   cli:
     image: besteadfast/stallion-php:7.4
     init: true
-    env_file: .env
     command: ./craft queue/listen 10
     depends_on:
       - "php"
@@ -45,12 +41,11 @@ services:
   mariadb:
     image: besteadfast/stallion-mariadb:latest
     init: true
-    env_file: .env
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: app
-      MYSQL_USER: steadfast
-      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
     ports:
       - "3307:3306"
     volumes:
@@ -58,7 +53,6 @@ services:
   webpack:
     image: besteadfast/stallion-node:latest
     init: true
-    env_file: .env
     command: [sh, -c, "npm install && npm run dev"]
     ports:
       - "8080:8080"
