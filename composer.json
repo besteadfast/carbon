@@ -1,5 +1,5 @@
 {
-	"name": "besteadfast/boilerplate",
+	"name": "besteadfast/stallion",
 	"description": "Steadfast's starter project - Craft CMS, Webpack, and Docker",
 	"type": "project",
 	"keywords": [
@@ -11,9 +11,9 @@
 	"license": "MIT",
 	"support": {
 		"email": "dev@steadfast.design",
-		"issues": "https://github.com/besteadfast/boilerplate/issues",
-		"source": "https://github.com/besteadfast/boilerplate",
-		"docs": "https://github.com/besteadfast/boilerplate"
+		"issues": "https://github.com/besteadfast/stallion/issues",
+		"source": "https://github.com/besteadfast/stallion",
+		"docs": "https://github.com/besteadfast/stallion"
 	},
 	"scripts": {
 		"post-create-project-cmd": [
