@@ -21,8 +21,7 @@
 			"@php -r \"unlink('LICENSE');\"",
 			"@php -r \"rename('.env.example', '.env');\"",
 			"@php -r \"unlink('composer.json');\"",
-			"@php -r \"rename('composer.json.project', 'composer.json');\"",
-			"@php craft setup/welcome"
+			"@php -r \"rename('composer.json.project', 'composer.json');\""
 		]
 	}
 }
