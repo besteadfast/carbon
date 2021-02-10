@@ -20,9 +20,9 @@
   },
   "scripts": {
 		"craft-update": [
-			"@php craft install/check && php craft migrate/all || return 0",
-			"@php craft install/check && php craft project-config/apply || return 0",
-			"@php craft install/check && php craft clear-caches/all || return 0"
+			"@php craft install/check && php craft migrate/all --interactive=0 || exit 0",
+			"@php craft install/check && php craft project-config/apply --interactive=0 || exit 0",
+			"@php craft install/check && php craft clear-caches/all --interactive=0 || exit 0"
 		],
 		"post-update-cmd": "@craft-update",
 		"post-install-cmd": "@craft-update"

@@ -2,22 +2,23 @@ version: '3.7'
 
 services:
   nginx:
-    image: besteadfast/stallion-nginx:latest
-    init: true
     depends_on:
       - "php"
+    image: besteadfast/stallion-nginx:latest
+    init: true
     ports:
       - "8000:80"
     volumes:
       - cpresources:/app/web/cpresources
       - ./web:/app/web:cached
   php:
-    image: besteadfast/stallion-php:7.4
-    init: true
     depends_on:
       - "mariadb"
     expose:
       - "9000"
+    image: besteadfast/stallion-php:7.4
+    init: true
+    restart: on-failure
     volumes:
       - cpresources:/app/web/cpresources
       - storage:/app/storage
@@ -25,13 +26,14 @@ services:
       - ./vendor:/app/vendor:delegated
       - ./storage/logs:/app/storage/logs:delegated
   cli:
-    image: besteadfast/stallion-php:7.4
-    init: true
     command: ./craft queue/listen 10
     depends_on:
       - "php"
     expose:
       - "9001"
+    image: besteadfast/stallion-php:7.4
+    init: true
+    restart: on-failure
     volumes:
       - cpresources:/app/web/cpresources
       - storage:/app/storage
@@ -39,23 +41,24 @@ services:
       - ./vendor:/app/vendor:delegated
       - ./storage/logs:/app/storage/logs:delegated
   mariadb:
-    image: besteadfast/stallion-mariadb:latest
-    init: true
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: "${DB_DATABASE}"
       MYSQL_USER: "${DB_USER}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
+    image: besteadfast/stallion-mariadb:latest
+    init: true
     ports:
       - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
   webpack:
+    command: [sh, -c, "npm install && npm run dev"]
     image: besteadfast/stallion-node:latest
     init: true
-    command: [sh, -c, "npm install && npm run dev"]
     ports:
       - "8080:8080"
+    restart: on-failure
     volumes:
       - .:/app:cached
       - ./node_modules:/app/node_modules:delegated
