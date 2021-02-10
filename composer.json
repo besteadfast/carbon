@@ -21,6 +21,7 @@
 			"@php -r \"unlink('LICENSE');\"",
 			"@php -r \"rename('.env.example', '.env');\"",
 			"@php -r \"unlink('composer.json');\"",
+			"@php -r \"unlink('composer.lock');\"",
 			"@php -r \"rename('composer.json.project', 'composer.json');\""
 		]
 	}
