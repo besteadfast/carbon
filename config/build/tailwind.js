@@ -25,6 +25,38 @@ module.exports = {
 		},
 		iconSizes: {
 		},
+		fontFamily: {
+            sans: [
+                'Arial',
+                'sans-serif'
+            ],
+        },
+		fontSize: {
+            'tiny': convertToRem(12),
+            'xs':   convertToRem(13),
+            'sm':   convertToRem(14),
+            'base': convertToRem(16), 
+            'md':   convertToRem(18), 
+            'lg':   convertToRem(20), 
+            'xl':   convertToRem(30),  
+            '2xl':  convertToRem(35),
+            '3xl':  convertToRem(40), 
+        },
+		fontWeight: {
+            light:      300,
+            normal:     400,
+            medium:     500,
+            semibold:   600,
+            bold:       700,
+        },
+        lineHeight: {
+            'none': '1',
+            '1':    '1.2',
+            '2':    '1.4',
+            '3':    '1.6',
+            '4':    '1.75',
+            '5':    '2',
+        },
 		spacing: (theme) => ({
 			...theme('iconSizes'),
 			'0': '0px',
@@ -44,9 +76,6 @@ module.exports = {
 			's13': '120px',
 			's14': '160px',
 			...generateSpacing(1, 35),
-			...generateSpacing(35, 75, 5),
-			...generateSpacing(80, 150, 10),
-			...generateSpacing(200, 500, 50),
 		}),
 	},
 	purge: false,
