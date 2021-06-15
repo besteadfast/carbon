@@ -317,21 +317,37 @@ p:not([class*='faux-']),
 }
 
 
-
-ul:not(class~='list-none') { 
+ol:not(.list-none),
+ul:not(.list-none) { 
     /* first level list */
-    @apply text-base leading-1;
+    @apply 
+        text-base 
+        leading-1
+        list-disc;
+    
+    * + & {
+        @apply mt-s3;
+    }
     
     & > li { 
         /* first level list item */
+        @apply
+            mt-5;
         
         & > ul { 
             /* second level list */
-            
+            @apply
+                pl-10;
+                
             & > li {         
                 /* second level list item */
                 
             }
         }
     }
+}
+
+ol:not(.list-none){
+    @apply
+        list-decimal;
 }
