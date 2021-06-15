@@ -7,10 +7,10 @@
 /* headings */
 h1:not([class*='faux-']),
 .faux-h1 {
-    @apply text-base leading-1;
+    @apply text-2xl leading-1;
 
-    * + & {
-        @apply mt-s3;
+    & + * {
+        @apply mt-s5;
     }
 
     &::before {
@@ -35,10 +35,10 @@ h1:not([class*='faux-']),
 }
 h2:not([class*='faux-']),
 .faux-h2 {
-    @apply text-base leading-1;
+    @apply text-xl leading-1;
 
-    * + & {
-        @apply mt-s3;
+    & + * {
+        @apply mt-s4;
     }
 
     &::before {
@@ -63,9 +63,9 @@ h2:not([class*='faux-']),
 }
 h3:not([class*='faux-']),
 .faux-h3 {
-    @apply text-base leading-1;
+    @apply text-lg leading-1;
 
-    * + & {
+    & + * {
         @apply mt-s3;
     }
 
@@ -93,7 +93,7 @@ h4:not([class*='faux-']),
 .faux-h4 {
     @apply text-base leading-1;
 
-    * + & {
+    & + * {
         @apply mt-s3;
     }
 
@@ -121,7 +121,7 @@ h5:not([class*='faux-']),
 .faux-h5 {
     @apply text-base leading-1;
 
-    * + & {
+    & + * {
         @apply mt-s3;
     }
 
@@ -149,7 +149,7 @@ h6:not([class*='faux-']),
 .faux-h6 {
     @apply text-base leading-1;
 
-    * + & {
+    & + * {
         @apply mt-s3;
     }
 
@@ -179,7 +179,7 @@ h6:not([class*='faux-']),
 .faux-sh{
     @apply text-base leading-1;
 
-    * + & {
+    & + * {
         @apply mt-s3;
     }
 
@@ -210,7 +210,7 @@ p:not([class*='faux-']),
 .faux-p{
     @apply text-base leading-1;
     
-    * + & {
+    & + * {
         @apply mt-s3;
     }
 
@@ -237,7 +237,7 @@ p:not([class*='faux-']),
 .faux-p-sm{
     @apply text-sm leading-1;
     
-    * + & {
+    & + * {
         @apply mt-s3;
     }
 
@@ -264,7 +264,7 @@ p:not([class*='faux-']),
 .faux-p-lg{
     @apply text-lg leading-1;
     
-    * + & {
+    & + * {
         @apply mt-s3;
     }
 
@@ -291,7 +291,7 @@ p:not([class*='faux-']),
 .faux-p-xl{
     @apply text-xl leading-1;
     
-    * + & {
+    & + * {
         @apply mt-s3;
     }
 
@@ -325,7 +325,7 @@ ul:not(.list-none) {
         leading-1
         list-disc;
     
-    * + & {
+    & + * {
         @apply mt-s3;
     }
     
