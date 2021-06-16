@@ -1,0 +1,22 @@
+dateModified: 1623787862
+email:
+  fromEmail: stallion@steadfast.design
+  fromName: Stallion
+  transportType: craft\mail\transportadapters\Sendmail
+plugins:
+  twigpack:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+system:
+  edition: solo
+  live: true
+  name: Stallion
+  schemaVersion: 3.6.8
+  timeZone: America/Los_Angeles
+users:
+  allowPublicRegistration: false
+  defaultGroup: null
+  photoSubpath: null
+  photoVolumeUid: null
+  requireEmailVerification: true
