@@ -13,6 +13,11 @@ use craft\helpers\App;
 return [
     // Global settings
     '*' => [
+
+        'aliases' => [
+            '@webroot' => CRAFT_BASE_PATH . '/web',
+        ],
+        
         // Default Week Start Day (0 = Sunday, 1 = Monday...)
         'defaultWeekStartDay' => 1,
 
