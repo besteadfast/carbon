@@ -83,7 +83,7 @@ module.exports = merge(common, {
 		client: {
 			progress: false,
 		},
-		dev: {
+		devMiddleware: {
 			publicPath: '/dist/',
 		},
 		firewall: false,
@@ -91,7 +91,6 @@ module.exports = merge(common, {
 			'Access-Control-Allow-Origin': '*',
 		},
 		host: '0.0.0.0',
-		overlay: true,
 		port: 8080,
 		public: 'http://localhost:8080',
 		static: {
