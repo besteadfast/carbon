@@ -31,6 +31,7 @@ module.exports = {
 			black: '#000000',
 		},
 		iconSizes: {
+      // 'icon-tiny': '16px'
 		},
 		fontFamily: {
             sans: [
@@ -42,10 +43,10 @@ module.exports = {
             '12':  convertToRem(12),
             '13':  convertToRem(13),
             '14':  convertToRem(14),
-            '15':  convertToRem(15), 
-            '16':  convertToRem(16), 
-            '17':  convertToRem(17), 
-            '18':  convertToRem(18),  
+            '15':  convertToRem(15),
+            '16':  convertToRem(16),
+            '17':  convertToRem(17),
+            '18':  convertToRem(18),
             '19':  convertToRem(19),
             '20':  convertToRem(20),
             '21':  convertToRem(21),
