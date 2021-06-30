@@ -7,7 +7,7 @@
 	"scripts": {
 		"dev": "nodemon",
 		"prod": "webpack --config config/build/webpack.prod.js --progress",
-		"svg": "./node_modules/svgo/bin/svgo --recursive --multipass --folder=web/assets/icons --config=./config/build/svgo.yml"
+		"icons": "./node_modules/svgo/bin/svgo --recursive --multipass --folder=web/assets/icons --config=./config/build/svgo.yml"
 	},
 	"nodemonConfig": {
 		"watch": [
