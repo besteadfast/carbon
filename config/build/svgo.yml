@@ -4,4 +4,4 @@ plugins:
   - convertColors:
       currentColor: true
   - addAttributesToSVGElement:
-      attribute: 'style="color: black;"'
+      attribute: 'id="icon-definition"'
