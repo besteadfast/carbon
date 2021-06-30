@@ -5,15 +5,6 @@ let convertToRem = function(pixelValue) {
 	return calc.toFixed(10) + 'rem';
 };
 
-let generateSpacing = function(start, end, multiple = 1) {
-	let spacingObject = {};
-	const pixelValues = Array.from(new Array(end - start + 1), (v, k) => k + start).filter((n) => n % multiple === 0);
-	pixelValues.forEach((val) => {
-		spacingObject[val] = val + 'px'; //convertToRem(val);
-	});
-	return spacingObject;
-};
-
 module.exports = {
 	important: '#app',
 	theme: {
@@ -106,7 +97,6 @@ module.exports = {
 			's12': '96px',
 			's13': '120px',
 			's14': '160px',
-			...generateSpacing(1, 10),
 		}),
 	},
 	purge: false,
