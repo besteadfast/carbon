@@ -17,7 +17,8 @@
 		"exec": "webpack serve --config config/build/webpack.dev.js"
 	},
 	"dependencies": {
-		"tailwindcss": "^2.0.2"
+		"tailwindcss": "^2.0.2",
+		"vue": "^2.6.14"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.9",
