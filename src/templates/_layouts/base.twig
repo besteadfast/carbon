@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+	{{ craft.twigpack.includeCssModule("main.css") }}
+</head>
+<body>
+	{% block body %}{% endblock %}
+
+	<script type="text/javascript">
+		window.csrfTokenName = "{{ craft.app.config.general.csrfTokenName|e('js') }}";
+		window.csrfTokenValue = "{{ craft.app.request.csrfToken|e('js') }}";
+		window.environment = "{{ craft.app.config.env|e('js') }}";
+	</script>
+
+	{{ craft.twigpack.includeJsModule("main.js") }}
+</body>
+</html>
