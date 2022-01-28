@@ -11,41 +11,41 @@
 use craft\helpers\App;
 
 return [
-    // Global settings
-    '*' => [
+	// Global settings
+	'*' => [
 
-        'aliases' => [
-            '@webroot' => CRAFT_BASE_PATH . '/web',
-        ],
-        
-        // Default Week Start Day (0 = Sunday, 1 = Monday...)
-        'defaultWeekStartDay' => 1,
+		'aliases' => [
+			'@webroot' => CRAFT_BASE_PATH . '/web',
+		],
 
-        // Whether generated URLs should omit "index.php"
-        'omitScriptNameInUrls' => true,
+		// Default Week Start Day (0 = Sunday, 1 = Monday...)
+		'defaultWeekStartDay' => 1,
 
-        // Control panel trigger word
-        'cpTrigger' => 'admin',
+		// Whether generated URLs should omit "index.php"
+		'omitScriptNameInUrls' => true,
 
-        // The secure key Craft will use for hashing and encrypting data
-        'securityKey' => App::env('SECURITY_KEY'),
-    ],
+		// Control panel trigger word
+		'cpTrigger' => 'admin',
 
-    // Dev environment settings
-    'dev' => [
-        // Dev Mode (see https://craftcms.com/guides/what-dev-mode-does)
-        'devMode' => true,
-    ],
+		// The secure key Craft will use for hashing and encrypting data
+		'securityKey' => App::env('SECURITY_KEY'),
+	],
 
-    // Staging environment settings
-    'staging' => [
-        // Set this to `false` to prevent administrative changes from being made on staging
-        'allowAdminChanges' => true,
-    ],
+	// Dev environment settings
+	'dev' => [
+		// Dev Mode (see https://craftcms.com/guides/what-dev-mode-does)
+		'devMode' => true,
+	],
 
-    // Production environment settings
-    'production' => [
-        // Set this to `false` to prevent administrative changes from being made on production
-        'allowAdminChanges' => true,
-    ],
+	// Staging environment settings
+	'staging' => [
+		// Set this to `false` to prevent administrative changes from being made on staging
+		'allowAdminChanges' => true,
+	],
+
+	// Production environment settings
+	'production' => [
+		// Set this to `false` to prevent administrative changes from being made on production
+		'allowAdminChanges' => true,
+	],
 ];
