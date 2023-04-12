@@ -1,0 +1,13 @@
+{% macro iconNameFromFilename(filename) %}{% apply spaceless %}
+	{% set noExtension = filename|split('.')[0] %}
+	{# {% set parts = noExtension|split('-') %}
+	{% set partsWithoutSize = parts|slice(1, parts|length) %}
+	{% set iconName = partsWithoutSize|join('-') %} #}
+	{# {{ iconName }} #}
+	{{ noExtension }}
+{% endapply %}{% endmacro %}
+
+{% macro iconNameFromAsset(asset) %}{% apply spaceless %}
+	{% set filename = asset.filename %}
+	{{ _self.iconNameFromFilename(filename) }}
+{% endapply %}{% endmacro %}

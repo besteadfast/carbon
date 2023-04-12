@@ -1,0 +1,29 @@
+{
+	"buttons": ["format", "bold", "italic", "lists", "link", "file", "html"],
+	"formatting": ["p", "h2", "h3", "h4", "h5", "h6"],
+	"pastePlainText": true,
+	"pasteImages": false,
+	"pasteLinks": true,
+	"linkNewTab": true,
+	"linkTitle": true,
+	"formattingAdd": {
+		"large": {
+			"title": "Large Paragraph",
+			"api": "module.block.format",
+			"args": {
+				"tag": "p",
+				"class": "faux-p-lg",
+				"type": "set"
+			}
+		},
+		"small": {
+			"title": "Small Paragraph",
+			"api": "module.block.format",
+			"args": {
+				"tag": "p",
+				"class": "faux-p-sm",
+				"type": "set"
+			}
+		}
+	}
+}

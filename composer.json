@@ -1,28 +1,56 @@
 {
-	"name": "besteadfast/stallion",
-	"description": "Steadfast's starter project - Craft CMS, Webpack, and Docker",
-	"type": "project",
-	"keywords": [
-		"craft",
-		"cms",
-		"craftcms",
-		"project"
-	],
-	"license": "MIT",
-	"support": {
-		"email": "dev@steadfast.design",
-		"issues": "https://github.com/besteadfast/stallion/issues",
-		"source": "https://github.com/besteadfast/stallion",
-		"docs": "https://github.com/besteadfast/stallion"
-	},
-	"scripts": {
-		"post-create-project-cmd": [
-			"@php -r \"unlink('README.md');\"",
-			"@php -r \"unlink('LICENSE');\"",
-			"@php -r \"rename('.env.example', '.env');\"",
-			"@php -r \"unlink('composer.json');\"",
-			"@php -r \"unlink('composer.lock');\"",
-			"@php -r \"rename('composer.json.project', 'composer.json');\""
-		]
-	}
+    "require": {
+        "carlcs/craft-twigportal": "^2.0",
+        "craftcms/aws-s3": "^2.0.1",
+        "craftcms/cms": "^4.0.0",
+        "craftcms/redactor": "^3.0.2",
+        "doublesecretagency/craft-cpcss": "^2.5",
+        "leowebguy/device-detect": "^2.0",
+        "mmikkel/retcon": "^2.6.0",
+        "nystudio107/craft-retour": "^4.1",
+        "nystudio107/craft-seomatic": "^4.0.9",
+        "nystudio107/craft-vite": "^4.0.3",
+        "putyourlightson/craft-blitz": "^4.2.3",
+        "sebastianlenz/linkfield": "^2.1.4",
+        "solspace/craft3-calendar": "^4.0.0-beta.5",
+        "spicyweb/craft-embedded-assets": "^3.0.5",
+        "spicyweb/craft-neo": "^3.4.0",
+        "studioespresso/craft-scout": "^3.0",
+        "verbb/buttonbox": "^4.1",
+        "verbb/field-manager": "^3.0.4",
+        "verbb/navigation": "^2.0.7",
+        "verbb/super-table": "^3.0.3",
+        "verbb/tablemaker": "^4.0",
+        "vlucas/phpdotenv": "^5.4.0",
+        "yiisoft/yii2-redis": "^2.0"
+    },
+    "require-dev": {
+        "yiisoft/yii2-shell": "^2.0.3",
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "modules\\": "src/modules/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "craftcms/plugin-installer": true,
+            "yiisoft/yii2-composer": true
+        },
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.0.2"
+        }
+    },
+    "scripts": {
+        "craft-update": [
+            "@php craft install/check && php craft migrate/all --interactive=0 || exit 0",
+            "@php craft install/check && php craft project-config/apply --interactive=0 || exit 0",
+            "@php craft install/check && php craft clear-caches/all --interactive=0 || exit 0"
+        ],
+        "post-update-cmd": "@craft-update",
+        "post-install-cmd": "@craft-update"
+    }
 }
