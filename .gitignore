@@ -21,3 +21,4 @@ yarn.lock
 package-lock.json
 composer.lock
 config/craft/project/*
+config/craft/license.key
