@@ -20,10 +20,5 @@
 	</script>
 
 	{{ craft.vite.script('src/js/main.js') }}
-
-	{# quick hack to load crtical css locally #}
-	{% if craft.vite.devServerRunning() %}
-  		{{ craft.vite.script('src/js/critical.js') }}
-	{% endif %}
 </body>
 </html>
