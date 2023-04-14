@@ -1,10 +1,10 @@
 {% extends '_layouts/base' %}
 
 {% block body %}
-	<div id="app">
+	<div id="app" class="min-h-screen flex flex-col">
 		{% include '_includes/header' %}
 
-		<main>
+		<main class="flex-grow">
 			{% block main %}
 			{% endblock %}
 		</main>
