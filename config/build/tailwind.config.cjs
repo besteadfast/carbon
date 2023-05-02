@@ -1,4 +1,5 @@
 const { colors, icons, typography, shadows } = require('./stallion.cjs')
+const { addInteract } = require('./plugins/interact.cjs')
 const { generateScreens } = require('./plugins/screens.cjs')
 const {
 	typographyElementsList,
@@ -135,5 +136,5 @@ module.exports = {
 	corePlugins: {
 		container: false,
 	},
-	plugins: [typographyPlugin, lineClampPlugin],
+	plugins: [typographyPlugin, lineClampPlugin, addInteract],
 }
