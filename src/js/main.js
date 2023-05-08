@@ -6,6 +6,7 @@ import '@src/css/main.pcss'
 
 /* Import components */
 import Icon from './components/Icon.vue'
+import MobileNav from './components/MobileNav/MobileNav.vue'
 
 /* Create Vue */
 const app = createApp({
@@ -17,6 +18,7 @@ const app = createApp({
 * both in Vue and Twig templates.
 */
 app.component('Icon', Icon)
+app.component('MobileNav', MobileNav)
 
 /* Mount Vue to #app element */
 app.mount('#app')
