@@ -48,18 +48,18 @@ export default {
 	<div class="h-full flex items-center relative lg:hidden" ref="menubtnwrapper">
 		<button class="menu-btn h-s8 w-s8 outline-none" @click="toggle()" :value="isOpen"
 			aria-label="toggle main navigation z-10" :aria-expanded="isOpen" :aria-controls="`collapse${_uid}`">
-			<span class="absolute w-s8 block bg-blue-500 h-[2px] origin-left-center transition-all ease-in-out delay-150"
+			<span class="absolute w-s8 block bg-white h-[2px] origin-left-center transition-all ease-in-out delay-150"
 				:class="{
 						'rotate-45 top-[20px]': isOpen,
 						'rotate-0 top-[4px]': !isOpen
 					}"></span>
 			<span
-				class="absolute block opacity-100 bg-blue-500 h-[2px] top-1/2 origin-left-center transition-all ease-in-out delay-150"
+				class="absolute block opacity-100 bg-white h-[2px] top-1/2 origin-left-center transition-all ease-in-out delay-150"
 				:class="{
 						'w-0 opacity-0': isOpen,
 						'block w-s8': !isOpen
 					}"></span>
-			<span class="absolute w-s8 block bg-blue-500 h-[2px] origin-left-center transition-all ease-in-out delay-150"
+			<span class="absolute w-s8 block bg-white h-[2px] origin-left-center transition-all ease-in-out delay-150"
 				:class="{
 						'-rotate-45 bottom-[20px]': isOpen,
 						'-rotate-0 bottom-[4px]': !isOpen
