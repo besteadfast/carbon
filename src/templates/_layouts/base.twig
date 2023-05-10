@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	{% include '_includes/favicon' %}
+	{# {% include '_includes/fonts' %} #}
+</head>
+<body id="appcss">
+	{% block body %}{% endblock %}
+
+	{# Provide some variables to JS so they can be used within Vue component code #}
+	<script type="text/javascript">
+		window.csrfTokenName = "{{ craft.app.config.general.csrfTokenName|e('js') }}";
+		window.csrfTokenValue = "{{ craft.app.request.csrfToken|e('js') }}";
+		window.environment = "{{ craft.app.config.env|e('js') }}";
+		window.appUrl = "{{ getenv('APP_URL')|e('js') }}";
+	</script>
+
+	{{ craft.vite.script('src/js/main.js') }}
+</body>
+</html>

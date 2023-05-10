@@ -1,0 +1,19 @@
+{% extends '_layouts/base' %}
+
+{% block body %}
+	<div id="app" class="min-h-screen flex flex-col">
+		{% include '_includes/header' %}
+
+		<main class="flex-grow">
+			{% block main %}
+			{% endblock %}
+		</main>
+
+		{% include '_includes/footer' %}
+
+		{#
+		## Any content which should appear *outside* of your typical stacking context should go here.
+		## Example: a modal dialog or a dropdown menu.
+		#}
+	</div>
+{% endblock %}

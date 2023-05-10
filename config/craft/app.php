@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Yii Application Config
  *
@@ -20,17 +19,27 @@
 
 use craft\helpers\App;
 
-return [
-	'id' => App::env('APP_ID') ?: 'CraftCMS',
-	'modules' => [],
-	'bootstrap' => [],
+$appConfig = [
 	'components' => [
 		'deprecator' => [
-			'throwExceptions' => App::env('DEV_MODE'),
+			'throwExceptions' => App::env('CRAFT_DEV_MODE'),
 		],
 		'queue' => [
-			'class' => craft\queue\Queue::class,
-			'ttr' => 10 * 60,
+				'class' => craft\queue\Queue::class,
+				'ttr' => 60 * 60,
 		],
 	],
+	'id' => App::env('APP_ID') ?: 'CraftCMS',
+	'modules' => [
+			'my-module' => \modules\Module::class,
+	],
+	//'bootstrap' => ['my-module'],
 ];
+
+/*
+	Hey! 👋
+	If you need to conditionally modify the config based
+	on environment variables, do it here before you return
+*/
+
+return $appConfig;

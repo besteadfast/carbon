@@ -1,0 +1,8 @@
+{
+	"buttons": ["bold", "italic", "link", "file", "html"],
+	"pastePlainText": true,
+	"pasteImages": false,
+	"pasteLinks": true,
+	"linkNewTab": true,
+	"linkTitle": true
+}
