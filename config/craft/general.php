@@ -48,4 +48,7 @@ return [
 	'timezone' => 'America/New_York',
 
 	'maxUploadFileSize' => 524288000, // 500MB
+
+	// Disable public template routing (autogenerating routes from templates)
+	'privateTemplateTrigger' => '',
 ];
