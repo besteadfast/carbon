@@ -1,0 +1,24 @@
+
+# Example Carbon README
+
+## Project Info
+- [Craft CMS](https://craftcms.com) for content management (multisite)
+- [Buddy.works](buddy.works) for continuous deployment
+- [ServerPilot](serverpilot.io) for server provisioning and app management
+
+## Local Project Setup
+
+### Craft (Backend)
+1. Create Craft ENV: clone `.env.local` to `.env`
+1. Start DDEV: run `ddev start`
+1. Retrieve database: `swiff --databasePull`
+1. Pull files from server: `swiff --folderPull`
+1. Install dependencies: `ddev composer install`
+
+🎉 Voilá! Your local Craft control panel should now be live<sup>*</sup>: https://sitename.ddev.site/admin
+
+### Vite (Frontend)
+1. Install dependencies: `npm install`
+1. Run dev: `npm run dev`
+
+🪄 Tada! Your frontend should now be beatiful 😍: https://sitename.ddev.site
