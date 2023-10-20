@@ -1,5 +1,5 @@
 const plugin = require('tailwindcss/plugin')
-const { colors, typography } = require('../stallion.cjs')
+import { colors, typography } from '../carbon.mjs'
 
 const typographyElements = {
 	'sh': ['.faux-sh'],
@@ -62,9 +62,9 @@ const calculateOffset = (lineHeight, offset) => {
 	return offset + lineHeightScale
 }
 
-const typographyElementsList = Object.values(typographyElements).flat()
+export const typographyElementsList = Object.values(typographyElements).flat()
 
-const typographyPlugin = plugin(function ({ addBase, theme }) {
+export const typographyPlugin = plugin(function ({ addBase, theme }) {
 	// sh
 	if (typography.styles) {
 		Object.entries(typography.styles).forEach(([element, settings]) => {
@@ -236,8 +236,3 @@ const typographyPlugin = plugin(function ({ addBase, theme }) {
 
 	addBase(typographyRuleSets)
 })
-
-module.exports = {
-	typographyElementsList,
-	typographyPlugin,
-}
