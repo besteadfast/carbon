@@ -51,4 +51,7 @@ return [
 
 	// Disable public template routing (autogenerating routes from templates)
 	'privateTemplateTrigger' => '',
+
+	// P1M == ~30 days
+	'previewTokenDuration' => 'P1M'
 ];
