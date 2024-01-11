@@ -15,11 +15,3 @@
 !/web/assets/graphics
 !/web/assets/cms
 *.sql
-!/seed.sql
-
-# Boilerplate specific excludes
-yarn.lock
-package-lock.json
-composer.lock
-config/craft/project/*
-config/craft/license.key

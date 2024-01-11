@@ -1,0 +1,68 @@
+dateModified: 1702664436
+email:
+  fromEmail: dev@steadfast.design
+  fromName: 'Website by Steadfast'
+  transportType: craft\mail\transportadapters\Sendmail
+meta:
+  __names__:
+    5affaa6d-693b-48ad-b39f-8d47fa961fcc: Common # Common
+    8b997ab2-f388-4283-ab1a-a0fcd60fcf4d: 'Icon Picker' # Icon Picker
+    24a695c1-dfdb-490b-b2f4-418f10fa70a4: Home # Home
+    29ddc6b2-605e-432e-8a0a-61bd5db71d93: 'Website by Steadfast' # Website by Steadfast
+    71aef9fa-1e77-4cfa-bbd1-a48006412d66: 'Website by Steadfast' # Website by Steadfast
+    87c11e78-547e-4a12-b34a-16407a3899d7: '12' # 12
+    b735d688-a8ce-450c-92f3-0c09006ba218: Home # Home
+    bb50c9fb-b9ec-417c-ae65-d67d3f651814: Root # Root
+plugins:
+  icon-picker:
+    edition: standard
+    enabled: true
+    licenseKey: IHQWD6NNGJ24KODDL18WVZ6S
+    schemaVersion: 1.2.3
+    settings:
+      enableCache: true
+      iconItemSize: 32
+      iconItemSizeLarge: 40
+      iconItemWrapperSize: 56
+      iconItemWrapperSizeLarge: 72
+      iconSetsPath: '@webroot/assets/icons/'
+      iconSetsUrl: '@web/assets/icons/'
+      redactorFieldHandle: ''
+  neo:
+    edition: standard
+    enabled: true
+    licenseKey: E7GYN0H96SCCCI0U06X8LK53
+    schemaVersion: 3.6.2
+  redactor:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.3.0
+  seomatic:
+    edition: standard
+    enabled: true
+    licenseKey: M5VO46R5Q7Y013JNSWGPN5XE
+    schemaVersion: 3.0.12
+  super-table:
+    edition: standard
+    enabled: true
+    schemaVersion: 3.0.0
+  typedlinkfield:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.0.0
+  vite:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+system:
+  edition: solo
+  live: true
+  name: 'Website by Steadfast'
+  schemaVersion: 4.5.3.0
+  timeZone: America/Los_Angeles
+users:
+  allowPublicRegistration: false
+  defaultGroup: null
+  photoSubpath: null
+  photoVolumeUid: null
+  requireEmailVerification: true

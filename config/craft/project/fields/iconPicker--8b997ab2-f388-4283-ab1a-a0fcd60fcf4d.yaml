@@ -1,0 +1,16 @@
+columnSuffix: wkjestdj
+contentColumnType: string
+fieldGroup: 5affaa6d-693b-48ad-b39f-8d47fa961fcc # Common
+handle: iconPicker
+instructions: null
+name: 'Icon Picker'
+searchable: false
+settings:
+  columnType: text
+  iconSets:
+    - 87c11e78-547e-4a12-b34a-16407a3899d7 # 12
+  renderId: null
+  showLabels: false
+translationKeyFormat: null
+translationMethod: none
+type: verbb\iconpicker\fields\IconPickerField

@@ -1,0 +1,7 @@
+enabled: true
+handle: '12'
+name: '12'
+settings:
+  folder: /12
+sortOrder: 5
+type: verbb\iconpicker\iconsets\SvgFolder

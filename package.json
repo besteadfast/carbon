@@ -9,7 +9,7 @@
 		"dev": "vite --config ./config/build/vite.config.js",
 		"build": "vite build --config ./config/build/vite.config.js",
 		"preview": "vite preview --config ./config/build/vite.config.js",
-		"build-icons": "svgo -r -f ./web/assets/icons/12 -o ./web/assets/icons/12 --config=./config/build/svgo/icons.js"
+		"build-icons": "svgo -r -f ./web/assets/icon-picker/12 -o ./web/assets/icon-picker/12 --config=./config/build/svgo/icons.js"
 	},
 	"dependencies": {
 		"@fancyapps/ui": "^4.0.31",

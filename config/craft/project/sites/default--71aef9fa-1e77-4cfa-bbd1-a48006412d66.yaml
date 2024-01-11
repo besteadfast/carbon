@@ -1,0 +1,8 @@
+baseUrl: $PRIMARY_SITE_URL
+handle: default
+hasUrls: true
+language: en-US
+name: 'Website by Steadfast'
+primary: true
+siteGroup: 29ddc6b2-605e-432e-8a0a-61bd5db71d93 # Website by Steadfast
+sortOrder: 1

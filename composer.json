@@ -6,6 +6,7 @@
         "nystudio107/craft-vite": "^4.0",
         "sebastianlenz/linkfield": "^2.1.4",
         "spicyweb/craft-neo": "^3.4.0",
+        "verbb/icon-picker": "^2.0",
         "verbb/super-table": "^3.0.3",
         "vlucas/phpdotenv": "^5.4.0",
         "yiisoft/yii2-redis": "^2.0"
