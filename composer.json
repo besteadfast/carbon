@@ -2,6 +2,7 @@
     "require": {
         "craftcms/cms": "^4.0.0",
         "craftcms/redactor": "^3.0.2",
+        "nystudio107/craft-retour": "^4.1",
         "nystudio107/craft-seomatic": "^4.0.9",
         "nystudio107/craft-vite": "^4.0",
         "sebastianlenz/linkfield": "^2.1.4",
