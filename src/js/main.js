@@ -1,12 +1,15 @@
 import 'vite/modulepreload-polyfill'
-import { createApp } from 'vue'
+import { createApp, defineAsyncComponent } from 'vue'
 
 /* Import CSS, which gets bundled _separately_ from JS  */
 import '@src/css/main.pcss'
 
 /* Import components */
-import Icon from './components/Icon.vue'
-import MobileNav from './components/MobileNav/MobileNav.vue'
+const eagerComponents = import.meta.glob(
+	['./components/**/*.vue', '!./components/**/*.lazy.vue'],
+	{ eager: true }
+)
+const lazyComponents = import.meta.glob('./components/**/*.lazy.vue')
 
 /* Create Vue */
 const app = createApp({
@@ -14,18 +17,29 @@ const app = createApp({
 })
 
 /*
-*	Register components: every component registered here will be accessible globally
-* both in Vue and Twig templates.
-*/
-app.component('Icon', Icon)
-app.component('MobileNav', MobileNav)
+ *	Automatically register components: components will be accessible globally
+ * both in Vue and Twig templates.
+ */
+
+//register eager components
+Object.entries(eagerComponents).forEach(([path, definition]) => {
+	const componentName = path.split('/').pop().replace('.vue', '')
+	app.component(componentName, definition.default)
+})
+
+//register lazy components
+Object.entries(lazyComponents).forEach(([path, module]) => {
+	const componentName = path.split('/').pop().replace('.lazy.vue', '')
+	const componentDefinition = defineAsyncComponent(module)
+	app.component(componentName, componentDefinition)
+})
 
 /* Mount Vue to #app element */
 app.mount('#app')
 
 // Accept HMR as per: https://vitejs.dev/guide/api-hmr.html
 if (import.meta.hot) {
-    import.meta.hot.accept(() => {
-        console.log('HMR')
-    })
+	import.meta.hot.accept(() => {
+		console.log('HMR')
+	})
 }

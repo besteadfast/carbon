@@ -14,14 +14,14 @@ export default {
 		toggle() {
 			this.isOpen = !this.isOpen
 			if (this.isOpen) {
-				disableBodyScroll(this.scrollContainer)
+				this.scrollContainer.classList.add('no-scroll')
 			} else {
-				enableBodyScroll(this.scrollContainer)
+				this.scrollContainer.classList.remove('no-scroll')
 			}
 		},
 		goToItem() {
 			this.isOpen = !this.isOpen
-			enableBodyScroll(this.scrollContainer)
+			this.scrollContainer.classList.remove('no-scroll')
 		}
 	},
 	mounted() {
@@ -32,15 +32,15 @@ export default {
 
 <template>
 	<nav @menu-button-clicked="toggle()" ref="navBar"
-		class="nav__mobile lg:hidden absolute w-full top-s12 left-0 bg-white transition-all ease-in-out duration-500"
+		class="nav__mobile lg:hidden absolute w-full top-s12 left-0 bg-white transition-all ease-in-out duration-500 overflow-hidden"
 		:class="{
-			'max-h-[2000px] h-screen': isOpen,
+			'h-screen': isOpen,
 			'max-h-0 h-0': !isOpen
 		}">
-		<ul class="flex flex-col px-s8 text-blue-600 text-center text-sm text-p-l1 p-lg font-bold justify-start items-center gap-s6 pt-s12 transition-all ease delay-200 duration-300 overflow-hidden"
+		<ul class="flex flex-col px-s8 text-blue-600 text-center text-sm text-p-l1 p-lg font-bold justify-start items-center gap-s6 py-s12 transition-all ease delay-200 duration-300 overflow-y-scroll"
 			:class="{
-					'opacity-100 h-full': isOpen,
-					'opacity-0 h-0': !isOpen
+					'opacity-100 h-full overflow-scroll': isOpen,
+					'opacity-0 h-0 overflow-hidden': !isOpen
 				}">
 						<slot name="item"></slot>
 		</ul>

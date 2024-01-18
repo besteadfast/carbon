@@ -5,8 +5,7 @@
 </template>
 
 <script>
-import stallion from '@build/stallion.cjs'
-const { icons } = stallion
+import { icons } from '@build/carbon.mjs'
 
 function sizeExists(size) {
 	return Object.keys(icons).includes(size)

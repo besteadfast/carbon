@@ -1,4 +1,4 @@
-function generateScreens(screenSizes) {
+export function generateScreens(screenSizes) {
 	const getPx = (val) => `${val}px`
 	const screenEntries = Object.entries(screenSizes)
 
@@ -34,8 +34,4 @@ function generateScreens(screenSizes) {
 		}, {})
 
 	return { ...minWidthBreakpoints, ...maxWidthBreakpoints, ...onlyBreakpoints }
-}
-
-module.exports = {
-	generateScreens,
 }

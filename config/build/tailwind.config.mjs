@@ -1,9 +1,10 @@
-const { colors, icons, typography, shadows } = require('./stallion.cjs')
-const { generateScreens } = require('./plugins/screens.cjs')
+import { colors, icons, typography, shadows } from './carbon.mjs'
+import { interactVariantPlugin } from './plugins/interact.mjs'
+import { generateScreens } from './plugins/screens.mjs'
 const {
 	typographyElementsList,
 	typographyPlugin,
-} = require('./plugins/typography.cjs')
+} = require('./plugins/typography.mjs')
 
 const lineClampPlugin = require('@tailwindcss/line-clamp')
 
@@ -41,7 +42,7 @@ const generateIconSafelist = () =>
 		[]
 	)
 
-module.exports = {
+export default {
 	important: '#appcss',
 	content: ['./src/templates/**/*.{twig,html}', './src/js/**/*.{js,vue}'],
 	safelist: [...typographyElementsList, ...generateIconSafelist()],
@@ -135,5 +136,5 @@ module.exports = {
 	corePlugins: {
 		container: false,
 	},
-	plugins: [typographyPlugin, lineClampPlugin],
+	plugins: [typographyPlugin, lineClampPlugin, interactVariantPlugin],
 }
