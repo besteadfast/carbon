@@ -2,9 +2,10 @@
 
 {% block body %}
 	<div id="app" class="min-h-screen flex flex-col">
+		<a href="#main" class="absolute left-0 top-[76px] bg-blue-800 text-white px-s4 py-s2 rounded-br-sm -translate-y-[1000px] interact:translate-y-0 interact:outline-none interact:drop-shadow-card transition-all duration-300 z-0">Skip to content</a>
 		{% include '_includes/header' %}
 
-		<main class="flex-grow">
+		<main class="flex-grow" id="main">
 			{% block main %}
 			{% endblock %}
 		</main>
