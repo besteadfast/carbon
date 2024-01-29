@@ -24,3 +24,4 @@ composer.lock
 config/craft/project/*
 config/craft/license.key
 craft-uploads/*
+web/previews/
