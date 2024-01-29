@@ -3,5 +3,18 @@
 {% block main %}
 	<section class="py-s12 my-s12">
 		<h1 class="text-center">Site Homepage</h1>
+
+		{% set splitContent = entry.matrixPreviewTest.all() %}
+
+		{% for item in splitContent %}
+		<div class="py-s8 px-s8 max-w-[1000px] m-auto container flex flex-row justify-between items-center gap-s8">
+			<div class="grow">
+				<h2 class="font-semibold">{{ item.blockTitle }}</h2>
+				<p class="pt-s4">{{ item.description }}</p>
+			</div>
+			<img class="w-[400px] h-[400px] object-contain" src="{{ item.imageUrl }}" />
+		</div>
+		{% endfor %}
+
 	</section>
 {% endblock %}

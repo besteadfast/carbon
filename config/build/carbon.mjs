@@ -65,5 +65,20 @@ export const typography = {
 				'list': { base: 's10', md: 's12' },
 			},
 		},
+		h2: {
+			fontFamily: 'work',
+			fontWeight: 'bold',
+			fontSize: { base: '24', md: '32' },
+			lineHeight: { base: '130' },
+			letterSpacing: '1-2',
+			uppercase: false,
+			spacing: {
+				'h1': { base: 's9', md: 's9' },
+				'h2': { base: 's10', md: 's9' },
+				'p': { base: 's10', md: 's12' },
+				'p-sm': { base: 's10', md: 's12' },
+				'list': { base: 's10', md: 's12' },
+			},
+		},
 	},
 }

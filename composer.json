@@ -9,6 +9,7 @@
         "spicyweb/craft-neo": "^3.4.0",
         "verbb/super-table": "^3.0.3",
         "vlucas/phpdotenv": "^5.4.0",
+        "weareferal/matrix-field-preview": "^4.1",
         "yiisoft/yii2-redis": "^2.0"
     },
     "require-dev": {
