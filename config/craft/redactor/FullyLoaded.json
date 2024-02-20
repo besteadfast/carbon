@@ -12,7 +12,7 @@
 			"api": "module.block.format",
 			"args": {
 				"tag": "p",
-				"class": "faux-p-lg",
+				"class": "t-p-lg",
 				"type": "set"
 			}
 		},
@@ -21,7 +21,7 @@
 			"api": "module.block.format",
 			"args": {
 				"tag": "p",
-				"class": "faux-p-sm",
+				"class": "t-p-sm",
 				"type": "set"
 			}
 		}

@@ -1,30 +1,91 @@
-const plugin = require('tailwindcss/plugin')
+import plugin from 'tailwindcss/plugin'
 import { colors, typography } from '../carbon.mjs'
+import { createRequire } from 'node:module'
 
 const typographyElements = {
-	'sh': ['.faux-sh'],
-	'h1': ["h1:not([class*='faux-'])", '.faux-h1'],
-	'h2': ["h2:not([class*='faux-'])", '.faux-h2'],
-	'h3': ["h3:not([class*='faux-'])", '.faux-h3'],
-	'h4': ["h4:not([class*='faux-'])", '.faux-h4'],
-	'h5': ["h5:not([class*='faux-'])", '.faux-h5'],
-	'h6': ["h6:not([class*='faux-'])", '.faux-h6'],
-	'p-lg': ['.faux-p-lg'],
-	'p': ["p:not([class*='faux-'])", '.faux-p'],
-	'p-sm': ['.faux-p-sm'],
-	'p-xs': ['.faux-p-xs'],
-	'list': [
-		'ul:not(.list-none):not(.splide__list)',
-		'ol:not(.list-none):not(.splide__list)',
-	],
-	'list-1': ':is(ul, ol):not(.list-none):not(.splide__list) > li',
-	'list-2': ':is(ul, ol):not(.list-none):not(.splide__list) :is(ul, ol) > li',
-	'list-3':
-		':is(ul, ol):not(.list-none):not(.splide__list) :is(ul, ol) :is(ul, ol) > li',
-	'bq': ["blockquote:not([class*='faux-'])", '.faux-blockquote'],
+	'h1': ["h1:not([class^='t-'])", '.t-h1'],
+	'h2': ["h2:not([class^='t-'])", '.t-h2'],
+	'h3': ["h3:not([class^='t-'])", '.t-h3'],
+	'h4': ["h4:not([class^='t-'])", '.t-h4'],
+	'h5': ["h5:not([class^='t-'])", '.t-h5'],
+	'h6': ["h6:not([class^='t-'])", '.t-h6'],
+	'p': ["p:not([class^='t-'])", '.t-p'],
+	'p-lg': ['.t-p-lg'],
+	'p-sm': ['.t-p-sm'],
+	'p-xs': ['.t-p-xs'],
 }
 
+export const typographyElementsList = Object.values(typographyElements).flat()
+
 let ruleSetsByScreen = {}
+
+const basePseudoElement = {
+	content: '""',
+	width: 0,
+	height: 0,
+	display: 'block',
+}
+
+async function loadFontMetrics(fontKey, fontName) {
+	const fontNameTokens = fontName.split(' ')
+	fontNameTokens[0] = fontNameTokens[0].toLowerCase()
+	const camelCaseFontName = fontNameTokens.join('')
+	const require = createRequire(import.meta.url)
+	const fontModuleName = require.resolve(
+		`@capsizecss/metrics/${camelCaseFontName}`
+	)
+	try {
+		const fontMetrics = await import(fontModuleName)
+		return [fontKey, fontMetrics.default]
+	} catch (error) {
+		console.error(`Failed to import font metrics for ${fontName}:`, error)
+	}
+}
+
+let metrics = {}
+
+const metricsPromises = Object.entries(typography.fonts).map(([key, value]) => {
+	return loadFontMetrics(key, value[0])
+})
+await Promise.all(metricsPromises).then((values) => {
+	values.forEach(([key, value]) => {
+		metrics[key] = value
+	})
+})
+
+const combineWithDefaults = (() => {
+	let optionalMissingKeysLogged = false
+	const defaultSettings = typography.styles.DEFAULT
+
+	return (settings, requiredKeys) => {
+		const keys = Array.from(
+			settings
+				? new Set([...Object.keys(settings), ...Object.keys(defaultSettings)])
+				: Object.keys(defaultSettings)
+		)
+		let missingKeys = false
+		const combined = {}
+
+		keys.forEach((key) => {
+			if (settings && key in settings) {
+				combined[key] = settings[key]
+			} else {
+				combined[key] = defaultSettings[key]
+				if (requiredKeys.includes(key)) {
+					missingKeys = true
+				}
+			}
+		})
+		if (missingKeys && !optionalMissingKeysLogged) {
+			console.info(
+				'Info - Some required keys not explicitly defined on typography objects. Will fall back to defaults.'
+			)
+			optionalMissingKeysLogged = true
+		}
+
+		return combined
+	}
+})()
 
 const generateIs = (selectors) => {
 	if (Array.isArray(selectors)) {
@@ -39,10 +100,6 @@ const getScreenSize = (screen, theme) => {
 		: theme('screens.' + screen).replace('px', '')
 }
 
-const getOffset = (family) => {
-	return typography.fonts[family].offset
-}
-
 const generateRuleSetsByScreen = (screenSize, selector, rules) => {
 	ruleSetsByScreen[screenSize] = {
 		...ruleSetsByScreen[screenSize],
@@ -55,162 +112,129 @@ const generateRuleSetsByScreen = (screenSize, selector, rules) => {
 	}
 }
 
-const calculateOffset = (lineHeight, offset) => {
-	let lineHeightDifference = lineHeight / 100 - 1
+const calculateTopOffset = (
+	{ ascent, descent, unitsPerEm, xHeight, capHeight },
+	lineHeight,
+	isUppercase
+) => {
+	const normalizedTextHeight = (ascent - descent) / unitsPerEm
+	let lineHeightDifference = lineHeight / 100 - normalizedTextHeight
 	let lineHeightScale = lineHeightDifference / 2
-
-	return offset + lineHeightScale
+	const fromTop = isUppercase
+		? (ascent - capHeight) / unitsPerEm
+		: (ascent - xHeight - (capHeight - xHeight) / 2) / unitsPerEm
+	const offset = fromTop + lineHeightScale
+	return offset
 }
 
-export const typographyElementsList = Object.values(typographyElements).flat()
+const calculateBottomOffset = ({ ascent, descent, unitsPerEm }, lineHeight) => {
+	const normalizedTextHeight = (ascent - descent) / unitsPerEm
+	const lineHeightDifference = lineHeight / 100 - normalizedTextHeight
+	const lineHeightScale = lineHeightDifference / 2
+	const offset = -descent / unitsPerEm + lineHeightScale
+	return offset
+}
 
 export const typographyPlugin = plugin(function ({ addBase, theme }) {
-	// sh
-	if (typography.styles) {
-		Object.entries(typography.styles).forEach(([element, settings]) => {
-			// handle root-level styles
-			const selector = generateIs(typographyElements[element])
-			generateRuleSetsByScreen('base', selector, {
-				...(settings.fontFamily && {
-					fontFamily: theme('fontFamily.' + settings.fontFamily),
-				}),
-				...(settings.fontWeight && {
-					fontWeight: theme('fontWeight.' + settings.fontWeight),
-				}),
-				...(settings.letterSpacing && {
-					letterSpacing: theme('letterSpacing.' + settings.letterSpacing),
-				}),
-				...(settings.uppercase && { textTransform: 'uppercase' }),
-				...(settings.fontSize && settings.lineHeight && { paddingTop: '1px' }),
-				...(settings.fontSize &&
-					settings.lineHeight && { paddingBottom: '1px' }),
-			})
-
-			// handle text color
-			if (settings.textColor) {
-				let [name, shade] = settings.textColor.split('-')
-				generateRuleSetsByScreen('base', selector, {
-					color: colors[name][shade],
-				})
-			}
-
-			// handle font sizes (responsively)
-			if (settings.fontSize) {
-				Object.entries(settings.fontSize).forEach(([screen, fontSize]) => {
-					const screenSize = getScreenSize(screen, theme)
-					generateRuleSetsByScreen(screenSize, selector, {
-						fontSize: theme('fontSize.' + fontSize),
-					})
-				})
-			}
-
-			// handle line height (responsively)
-			if (settings.lineHeight) {
-				Object.entries(settings.lineHeight).forEach(([screen, lineHeight]) => {
-					const screenSize = getScreenSize(screen, theme)
-					generateRuleSetsByScreen(screenSize, selector, {
-						lineHeight: theme('lineHeight.' + lineHeight),
-					})
-				})
-			}
-
-			// handle offset (responsively)
-			if (settings.lineHeight) {
-				Object.entries(settings.lineHeight).forEach(([screen, lineHeight]) => {
-					const topOffset = settings.uppercase ? 'cap' : 'midCap'
-					const screenSize = getScreenSize(screen, theme)
-					generateRuleSetsByScreen(screenSize, selector + '::before', {
-						content: '""',
-						width: 0,
-						height: 0,
-						display: 'block',
-						marginTop:
-							'calc(-' +
-							calculateOffset(
-								lineHeight,
-								getOffset(settings.fontFamily)[topOffset]
-							) +
-							'em - 1px)',
-					})
-					generateRuleSetsByScreen(screenSize, selector + '::after', {
-						content: '""',
-						width: 0,
-						height: 0,
-						display: 'block',
-						marginBottom:
-							'calc(-' +
-							calculateOffset(
-								lineHeight,
-								getOffset(settings.fontFamily).baseline
-							) +
-							'em - 1px)',
-					})
-
-					// List-specific offset styling
-					if (element.includes('list-')) {
-						// Add top offset to nested uls since the li text won't have a negative bottom margin
-						generateRuleSetsByScreen(
-							screenSize,
-							selector + ' > ul::before, ' + selector + ' > ol::before',
-							{
-								content: '""',
-								width: 0,
-								height: 0,
-								display: 'block',
-								marginBottom:
-									'calc(-' +
-									calculateOffset(
-										lineHeight,
-										getOffset(settings.fontFamily).baseline
-									) +
-									'em - 1px)',
-							}
-						)
-						// Add offset to bullets so they line up correctly
-						generateRuleSetsByScreen(
-							screenSize,
-							selector +
-								' > .bullet::before, ' +
-								selector +
-								' > .bullet::after',
-							{
-								marginTop:
-									'calc(-' +
-									calculateOffset(
-										lineHeight,
-										getOffset(settings.fontFamily)[topOffset]
-									) +
-									'em)',
-								marginBottom:
-									'calc(-' +
-									calculateOffset(
-										lineHeight,
-										getOffset(settings.fontFamily).baseline
-									) +
-									'em)',
-							}
-						)
-					}
-				})
-			}
-
-			// generate combination selectors, e.g. sh + h1
-			if (settings.spacing) {
-				Object.entries(settings.spacing).forEach(([comboElement, spacers]) => {
-					const comboSelector =
-						generateIs(typographyElements[comboElement]) + ' + ' + selector
-
-					// handle spacing between siblings (responsively)
-					Object.entries(spacers).forEach(([screen, spacerSize]) => {
-						const screenSize = getScreenSize(screen, theme)
-						generateRuleSetsByScreen(screenSize, comboSelector, {
-							marginTop: theme('spacing.' + spacerSize),
-						})
-					})
-				})
-			}
-		})
+	if (!typography.styles) {
+		throw new Error(`Missing typography.styles object (in carbon.mjs)`)
 	}
+	if (!typography.styles.DEFAULT) {
+		throw new Error(
+			'Missing DEFAULT key/value pair in typography.styles object (in carbon.mjs)'
+		)
+	}
+
+	const typographyKeys = ['fontFamily', 'fontWeight', 'fontSize', 'lineHeight']
+	const missingKeys = typographyKeys.filter(
+		(key) => !Object.keys(typography.styles.DEFAULT).includes(key)
+	)
+
+	if (missingKeys.length) {
+		const missingKeysString = missingKeys.join(', ')
+		throw new Error(
+			`Required property or properties (${missingKeysString}) are not definied in the default typography settings object.`
+		)
+	}
+
+	Object.entries(typographyElements).forEach(([element, selectors]) => {
+		const settings = combineWithDefaults(
+			typography.styles[element],
+			typographyKeys
+		)
+		const selector = generateIs(selectors)
+
+		generateRuleSetsByScreen('base', selector, {
+			fontFamily: theme('fontFamily.' + settings.fontFamily),
+			fontWeight: theme('fontWeight.' + settings.fontWeight),
+			...(settings.letterSpacing && {
+				letterSpacing: theme('letterSpacing.' + settings.letterSpacing),
+			}),
+			...(settings.uppercase && { textTransform: 'uppercase' }),
+			paddingTop: '1px',
+			paddingBottom: '1px',
+		})
+
+		// handle text color
+		if (settings.textColor) {
+			let [name, shade] = settings.textColor.split('-')
+			generateRuleSetsByScreen('base', selector, {
+				color: colors[name][shade],
+			})
+		}
+
+		// handle font sizes (responsively)
+		Object.entries(settings.fontSize).forEach(([screen, fontSize]) => {
+			const screenSize = getScreenSize(screen, theme)
+			generateRuleSetsByScreen(screenSize, selector, {
+				fontSize: theme('fontSize.' + fontSize),
+			})
+		})
+
+		Object.entries(settings.lineHeight).forEach(([screen, lineHeight]) => {
+			const screenSize = getScreenSize(screen, theme)
+			generateRuleSetsByScreen(screenSize, selector, {
+				lineHeight: theme('lineHeight.' + lineHeight),
+			})
+		})
+
+		Object.entries(settings.lineHeight).forEach(
+			async ([screen, lineHeight]) => {
+				const screenSize = getScreenSize(screen, theme)
+				const currMetrics = metrics[settings.fontFamily]
+				const topOffset = calculateTopOffset(
+					currMetrics,
+					lineHeight,
+					settings.uppercase
+				)
+				const bottomOffset = calculateBottomOffset(currMetrics, lineHeight)
+				generateRuleSetsByScreen(screenSize, selector + '::before', {
+					...basePseudoElement,
+					marginTop: `calc(-${topOffset}em - 1px)`,
+				})
+				generateRuleSetsByScreen(screenSize, selector + '::after', {
+					...basePseudoElement,
+					marginBottom: `calc(-${bottomOffset}em - 1px)`,
+				})
+			}
+		)
+
+		// generate combination selectors, e.g. sh + h1
+		if (settings.spacing) {
+			Object.entries(settings.spacing).forEach(([comboElement, spacers]) => {
+				const comboSelector =
+					generateIs(typographyElements[comboElement]) + ' + ' + selector
+
+				// handle spacing between siblings (responsively)
+				Object.entries(spacers).forEach(([screen, spacerSize]) => {
+					const screenSize = getScreenSize(screen, theme)
+					generateRuleSetsByScreen(screenSize, comboSelector, {
+						marginTop: theme('spacing.' + spacerSize),
+					})
+				})
+			})
+		}
+	})
 
 	const allMediaScreens = Object.keys(ruleSetsByScreen).filter(
 		(screen) => screen !== 'base'

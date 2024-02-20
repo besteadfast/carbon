@@ -6,12 +6,14 @@
 	"license": "UNLICENSED",
 	"private": true,
 	"scripts": {
-		"dev": "vite --config ./config/build/vite.config.js",
-		"build": "vite build --config ./config/build/vite.config.js",
-		"preview": "vite preview --config ./config/build/vite.config.js",
+		"dev": "vite --config ./config/build/vite.config.mjs",
+		"build": "vite build  --config ./config/build/vite.config.mjs",
+		"preview": "vite preview --config ./config/build/vite.config.mjs",
 		"build-icons": "svgo -r -f ./web/assets/icons/12 -o ./web/assets/icons/12 --config=./config/build/svgo/icons.js"
 	},
 	"dependencies": {
+		"@capsizecss/core": "^3.1.1",
+		"@capsizecss/metrics": "^1.2.0",
 		"@fancyapps/ui": "^4.0.31",
 		"@headlessui/vue": "^1.6.7",
 		"@splidejs/vue-splide": "^0.6.7",
