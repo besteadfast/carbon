@@ -1,7 +1,6 @@
 export const colors = {
 	white: '#ffffff',
 	black: '#000000',
-
 	// Default Tailwind colors
 	gray: {
 		50: '#f9fafb',
@@ -41,17 +40,28 @@ export const shadows = {
 
 export const typography = {
 	fonts: {
-		// Example font
-		work: {
-			family: ['Work Sans', 'sans-serif'],
-			offset: { cap: 0.19, midCap: 0.24, baseline: 0.16 },
-		},
+		work: ['Work Sans', 'sans-serif'],
 	},
-
 	styles: {
-		// Example typography style
-		h1: {
+		DEFAULT: {
 			fontFamily: 'work',
+			fontWeight: 'normal',
+			fontSize: { base: '16', md: '18' },
+			lineHeight: { base: '160', md: '150' },
+			spacing: {
+				'h1': { base: 's9', md: 's10' },
+				'h2': { base: 's9', md: 's10' },
+				'h3': { base: 's9', md: 's10' },
+				'h4': { base: 's9', md: 's10' },
+				'h5': { base: 's8', md: 's8' },
+				'h6': { base: 's8', md: 's8' },
+				'p': { base: 's8', md: 's9' },
+				'p-lg': { base: 's9', md: 's10' },
+				'p-sm': { base: 's8', md: 's9' },
+				'p-xs': { base: 's8', md: 's9' },
+			},
+		},
+		h1: {
 			fontWeight: 'bold',
 			fontSize: { base: '40', md: '52' },
 			lineHeight: { base: '130' },
@@ -62,8 +72,8 @@ export const typography = {
 				'h2': { base: 's10', md: 's9' },
 				'p': { base: 's10', md: 's12' },
 				'p-sm': { base: 's10', md: 's12' },
-				'list': { base: 's10', md: 's12' },
 			},
 		},
+		p: {}
 	},
 }

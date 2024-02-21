@@ -1,12 +1,9 @@
 import { colors, icons, typography, shadows } from './carbon.mjs'
 import { interactVariantPlugin } from './plugins/interact.mjs'
 import { generateScreens } from './plugins/screens.mjs'
-const {
-	typographyElementsList,
-	typographyPlugin,
-} = require('./plugins/typography.mjs')
+import { typographyElementSelectorList, typographyPlugin } from './plugins/typography.mjs'
 
-const lineClampPlugin = require('@tailwindcss/line-clamp')
+import lineClampPlugin from '@tailwindcss/line-clamp'
 
 const rootFontSize = 16
 
@@ -17,10 +14,9 @@ const convertToRem = function (pixelValue) {
 
 const generateSteps = function (start, end, multiple = 1, callback) {
 	let steps = {}
-	const values = Array.from(
-		new Array(end - start + 1),
-		(v, k) => k + start
-	).filter((n) => n % multiple === 0)
+	const values = Array.from(new Array(end - start + 1), (v, k) => k + start).filter(
+		(n) => n % multiple === 0
+	)
 	values.forEach((val) => {
 		steps[val] = callback(val)
 	})
@@ -45,7 +41,7 @@ const generateIconSafelist = () =>
 export default {
 	important: '#appcss',
 	content: ['./src/templates/**/*.{twig,html}', './src/js/**/*.{js,vue}'],
-	safelist: [...typographyElementsList, ...generateIconSafelist()],
+	safelist: [...typographyElementSelectorList, ...generateIconSafelist()],
 	theme: {
 		extend: {
 			borderWidth: {
@@ -65,7 +61,10 @@ export default {
 		},
 		maxWidth: {
 			none: 'none',
+			text: '800px',
+			content: '1024px',
 			wide: '1440px',
+			full: '100%',
 		},
 		colors: {
 			transparent: 'transparent',
@@ -75,28 +74,26 @@ export default {
 		fontFamily: Object.keys(typography.fonts).reduce(
 			(acc, font) => ({
 				...acc,
-				[font]: typography.fonts[font].family,
+				[font]: typography.fonts[font],
 			}),
 			{}
 		),
 		fontSize: generateSteps(8, 72, 1, (val) => {
 			return convertToRem(val)
 		}),
-		lineHeight: {
-			100: '1',
-			// 110: '1.1',
-			// 120: '1.2',
-		},
+		lineHeight: generateSteps(100, 200, 10, (val) => {
+			return val / 100
+		}),
 		letterSpacing: {
-			'-1': '-.01em',
+			'-01': '-.01em',
 			'0': '0',
-			'1': '.01em',
-			'1-2': '.012em',
-			'2': '.02em',
-			'3': '.03em',
-			'4': '.04em',
-			'5': '.05em',
-			'6': '.06em',
+			'01': '.01em',
+			'012': '.012em',
+			'02': '.02em',
+			'03': '.03em',
+			'04': '.04em',
+			'05': '.05em',
+			'06': '.06em',
 			'10': '.1em',
 			'20': '.20em',
 		},
