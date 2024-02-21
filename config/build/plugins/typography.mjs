@@ -2,20 +2,13 @@ import plugin from 'tailwindcss/plugin'
 import { colors, typography } from '../carbon.mjs'
 import { createRequire } from 'node:module'
 
-const typographyElements = {
-	'h1': ["h1:not([class^='t-'])", '.t-h1'],
-	'h2': ["h2:not([class^='t-'])", '.t-h2'],
-	'h3': ["h3:not([class^='t-'])", '.t-h3'],
-	'h4': ["h4:not([class^='t-'])", '.t-h4'],
-	'h5': ["h5:not([class^='t-'])", '.t-h5'],
-	'h6': ["h6:not([class^='t-'])", '.t-h6'],
-	'p': ["p:not([class^='t-'])", '.t-p'],
-	'p-lg': ['.t-p-lg'],
-	'p-sm': ['.t-p-sm'],
-	'p-xs': ['.t-p-xs'],
-}
+const typographyElements = Object.keys(typography.styles).reduce((acc, curr) => {
+	return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'].includes(curr)
+		? { ...acc, [curr]: [`.t-${curr}`, `${curr}:not([class^='t-'])`] }
+		: { ...acc, [curr]: [`.t-${curr}`] }
+}, {})
 
-export const typographyElementsList = Object.values(typographyElements).flat()
+export const typographyElementSelectorList = Object.values(typographyElements).flat()
 
 let ruleSetsByScreen = {}
 
@@ -31,9 +24,7 @@ async function loadFontMetrics(fontKey, fontName) {
 	fontNameTokens[0] = fontNameTokens[0].toLowerCase()
 	const camelCaseFontName = fontNameTokens.join('')
 	const require = createRequire(import.meta.url)
-	const fontModuleName = require.resolve(
-		`@capsizecss/metrics/${camelCaseFontName}`
-	)
+	const fontModuleName = require.resolve(`@capsizecss/metrics/${camelCaseFontName}`)
 	try {
 		const fontMetrics = await import(fontModuleName)
 		return [fontKey, fontMetrics.default]
@@ -95,9 +86,7 @@ const generateIs = (selectors) => {
 }
 
 const getScreenSize = (screen, theme) => {
-	return screen === 'base'
-		? 'base'
-		: theme('screens.' + screen).replace('px', '')
+	return screen === 'base' ? 'base' : theme('screens.' + screen).replace('px', '')
 }
 
 const generateRuleSetsByScreen = (screenSize, selector, rules) => {
@@ -140,9 +129,7 @@ export const typographyPlugin = plugin(function ({ addBase, theme }) {
 		throw new Error(`Missing typography.styles object (in carbon.mjs)`)
 	}
 	if (!typography.styles.DEFAULT) {
-		throw new Error(
-			'Missing DEFAULT key/value pair in typography.styles object (in carbon.mjs)'
-		)
+		throw new Error('Missing DEFAULT key/value pair in typography.styles object (in carbon.mjs)')
 	}
 
 	const typographyKeys = ['fontFamily', 'fontWeight', 'fontSize', 'lineHeight']
@@ -158,10 +145,7 @@ export const typographyPlugin = plugin(function ({ addBase, theme }) {
 	}
 
 	Object.entries(typographyElements).forEach(([element, selectors]) => {
-		const settings = combineWithDefaults(
-			typography.styles[element],
-			typographyKeys
-		)
+		const settings = combineWithDefaults(typography.styles[element], typographyKeys)
 		const selector = generateIs(selectors)
 
 		generateRuleSetsByScreen('base', selector, {
@@ -198,32 +182,25 @@ export const typographyPlugin = plugin(function ({ addBase, theme }) {
 			})
 		})
 
-		Object.entries(settings.lineHeight).forEach(
-			async ([screen, lineHeight]) => {
-				const screenSize = getScreenSize(screen, theme)
-				const currMetrics = metrics[settings.fontFamily]
-				const topOffset = calculateTopOffset(
-					currMetrics,
-					lineHeight,
-					settings.uppercase
-				)
-				const bottomOffset = calculateBottomOffset(currMetrics, lineHeight)
-				generateRuleSetsByScreen(screenSize, selector + '::before', {
-					...basePseudoElement,
-					marginTop: `calc(-${topOffset}em - 1px)`,
-				})
-				generateRuleSetsByScreen(screenSize, selector + '::after', {
-					...basePseudoElement,
-					marginBottom: `calc(-${bottomOffset}em - 1px)`,
-				})
-			}
-		)
+		Object.entries(settings.lineHeight).forEach(async ([screen, lineHeight]) => {
+			const screenSize = getScreenSize(screen, theme)
+			const currMetrics = metrics[settings.fontFamily]
+			const topOffset = calculateTopOffset(currMetrics, lineHeight, settings.uppercase)
+			const bottomOffset = calculateBottomOffset(currMetrics, lineHeight)
+			generateRuleSetsByScreen(screenSize, selector + '::before', {
+				...basePseudoElement,
+				marginTop: `calc(-${topOffset}em - 1px)`,
+			})
+			generateRuleSetsByScreen(screenSize, selector + '::after', {
+				...basePseudoElement,
+				marginBottom: `calc(-${bottomOffset}em - 1px)`,
+			})
+		})
 
 		// generate combination selectors, e.g. sh + h1
 		if (settings.spacing) {
 			Object.entries(settings.spacing).forEach(([comboElement, spacers]) => {
-				const comboSelector =
-					generateIs(typographyElements[comboElement]) + ' + ' + selector
+				const comboSelector = generateIs(typographyElements[comboElement]) + ' + ' + selector
 
 				// handle spacing between siblings (responsively)
 				Object.entries(spacers).forEach(([screen, spacerSize]) => {
@@ -236,12 +213,8 @@ export const typographyPlugin = plugin(function ({ addBase, theme }) {
 		}
 	})
 
-	const allMediaScreens = Object.keys(ruleSetsByScreen).filter(
-		(screen) => screen !== 'base'
-	)
-	const sortedMediaScreens = [...allMediaScreens].sort(
-		(a, b) => parseInt(a) - parseInt(b)
-	)
+	const allMediaScreens = Object.keys(ruleSetsByScreen).filter((screen) => screen !== 'base')
+	const sortedMediaScreens = [...allMediaScreens].sort((a, b) => parseInt(a) - parseInt(b))
 
 	const mediaRuleSets = sortedMediaScreens.reduce(
 		(acc, screen) => ({

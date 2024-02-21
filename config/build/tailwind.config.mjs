@@ -1,10 +1,7 @@
 import { colors, icons, typography, shadows } from './carbon.mjs'
 import { interactVariantPlugin } from './plugins/interact.mjs'
 import { generateScreens } from './plugins/screens.mjs'
-import {
-	typographyElementsList,
-	typographyPlugin,
-} from './plugins/typography.mjs';
+import { typographyElementSelectorList, typographyPlugin } from './plugins/typography.mjs'
 
 import lineClampPlugin from '@tailwindcss/line-clamp'
 
@@ -17,10 +14,9 @@ const convertToRem = function (pixelValue) {
 
 const generateSteps = function (start, end, multiple = 1, callback) {
 	let steps = {}
-	const values = Array.from(
-		new Array(end - start + 1),
-		(v, k) => k + start
-	).filter((n) => n % multiple === 0)
+	const values = Array.from(new Array(end - start + 1), (v, k) => k + start).filter(
+		(n) => n % multiple === 0
+	)
 	values.forEach((val) => {
 		steps[val] = callback(val)
 	})
@@ -45,7 +41,7 @@ const generateIconSafelist = () =>
 export default {
 	important: '#appcss',
 	content: ['./src/templates/**/*.{twig,html}', './src/js/**/*.{js,vue}'],
-	safelist: [...typographyElementsList, ...generateIconSafelist()],
+	safelist: [...typographyElementSelectorList, ...generateIconSafelist()],
 	theme: {
 		extend: {
 			borderWidth: {

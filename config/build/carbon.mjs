@@ -74,5 +74,6 @@ export const typography = {
 				'p-sm': { base: 's10', md: 's12' },
 			},
 		},
+		p: {}
 	},
 }
