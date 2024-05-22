@@ -110,7 +110,7 @@ export default {
 		},
 		borderRadius: {
 			none: '0px',
-			DEFAULT: '0px', // This value should be replaced with the most common border radius value
+			DEFAULT: '5px', // This value should be replaced with the most common border radius value
 			full: '50%',
 		},
 		spacing: () => ({
