@@ -7,36 +7,31 @@
 		{% set accordionMatrix = entry.accordion.all() %}
 
 		<div class="max-w-[600px] my-s12 mx-auto">
-		{% for block in accordionMatrix %}
-            <Accordion
-                index="{{ loop.index }}"
-                title="{{ block.accordionTitle }}"
-                body="{{ block.accordionBody }}"
-                custom-styles="bg-transparent interact:bg-blue-100 p-s4 mb-0 border-b border-blue-100"
-                custom-child-styles="bg-blue-100"
-            >
-              	<template v-slot:closed-icon>+</template>
-              	<template v-slot:opened-icon>-</template>
-            </Accordion>
-        {% endfor %}
+  		    {% for block in accordionMatrix %}
+                <Accordion>
+                    <template v-slot:title>
+                        {{ block.accordionTitle }}
+                    </template>
+                    <template v-slot:icon>
+                        ^
+                    </template>
+                    <template v-slot:content>
+                        {{ block.accordionBody }}
+                    </template>
+                </Accordion>
+            {% endfor %}
 		</div>
-		<div>
-		  <Dropdown
-				:options="[
-    				'first',
-    				'second',
-    				'third',
-    				'fourth'
-				]"
-				:default="'first'"
-				custom-styles="border-blue-100"
-				custom-menu-styles="border-blue-200"
-				custom-closed-styles="bg-white interact:bg-blue-300 border-blue-200"
-				custom-open-styles="bg-blue-100 interact:bg-blue-200 rounded-b-none border-b-0 border-blue-200"
-				custom-child-styles="interact:bg-blue-200 p-s4 mb-0 border-b last:border-b-0 border-blue-200"
-			>
-			 <template v-slot:icon>^</template>
-			</Dropdown>
+		<div class="max-w-[600px] my-s12 mx-auto">
+            <Dropdown :options="[
+                {title: 'first'},
+                {title: 'second'},
+                {title: 'third'},
+                {title: 'fourth'}
+            ]">
+                <template #icon>
+                    ^
+                </template>
+            </Dropdown>
 		</div>
 	</section>
 {% endblock %}

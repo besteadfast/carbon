@@ -1,47 +1,35 @@
 <template>
-    <div>
-        <button
-            class="flex justify-between items-center transition-all duration-300 ease-in-out w-full text-left font-bold ring-0 outline-none interact:outline-none cursor-pointer"
-            :class="props.customStyles ? props.customStyles : defaultStyles"
-            :aria-expanded="show"
-            :aria-controls="props.index"
-            :id="'accordion_' + props.index"
-            tabindex="1"
-            @click="show = !show"
-            @blur="show = false">
-            {{ props.title }}
-            <div
-                class="transition-opacity duration-300 ease-in-out text-[20px]"
-                :class="[show ? 'opacity-0 hidden' : 'opacity-1']"><slot name="closed-icon" /></div>
-            <div
-                class="transition-opacity duration-300 ease-in-out text-[20px]"
-                :class="[show ? 'opacity-1' : 'opacity-0 hidden']"><slot name="opened-icon" /></div>
-        </button>
-        <div
-            :id="props.index"
-            class="grid overflow-hidden transition-all duration-300 ease-in-out"
-            :class="[show ? 'grid-rows-[1fr] opacity-1' : 'grid-rows-[0fr] opacity-0'],[props.customChildStyles ? props.customChildStyles : defaultChildStyles]"
-            :hidden="!show">
-            <div class="overflow-hidden">
-               <div class="px-s4 py-s4" v-html=props.body />
-            </div>
-        </div>
-    </div>
+    <BaseAccordion
+        containerClasses="border-x border-b border-gray-200 first:rounded-t last:rounded-b first:border-t "
+        buttonClasses="flex justify-between items-center w-full px-s4 py-s2 bg-transparent interact:bg-blue-100 interact:outline-none transition duration-300"
+        panelClasses="p-s4"
+        iconClasses="rotate-0 transition duration-300"
+        iconTransitionClasses="rotate-180 transition duration-300"
+        :transitionClasses="{
+            enter: 'transition-opacity duration-300',
+            enterFrom: 'opacity-0',
+            enterTo: 'opacity-100',
+            leave: 'transition-opacity duration-300',
+            leaveFrom: 'opacity-100',
+            leaveTo: 'opacity-0'
+        }"
+    >
+        <template #button>
+            <span>
+                <slot name="title"></slot>
+            </span>
+        </template>
+        <template #button-icon>
+            <span>
+                <slot name="icon"></slot>
+            </span>
+        </template>
+        <template #content>
+            <slot name="content"></slot>
+        </template>
+    </BaseAccordion>
 </template>
 <script setup>
-import { defineProps, ref } from 'vue'
-
-const show = ref(false)
-
-const props = defineProps({
-    index: Number,
-    title: String,
-    body: String,
-    customStyles: String,
-    customChildStyles: String
-})
-
-const defaultStyles = "p-s4 interact:bg-gray-200 border-b border-gray-200"
-const defaultChildStyles = "''"
-
+import { DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+import BaseAccordion from '../primitives/accordion/BaseAccordion.vue'
 </script>
