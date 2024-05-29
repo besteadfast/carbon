@@ -1,11 +1,15 @@
 {% extends "_layouts" %}
 
+{% set accordionMatrix = entry.accordion.all() %}
+
+{% set tabsMatrix = entry.tabs.all() %}
+
 {% block main %}
 	<section class="py-s12 my-s12">
-		<h1 class="text-center">Site Homepage</h1>
 
-		{% set accordionMatrix = entry.accordion.all() %}
+	   <h1 class="text-center">Site Homepage</h1>
 
+	{% if accordionMatrix|length %}
 		<div class="max-w-[600px] my-s12 mx-auto">
   		    {% for block in accordionMatrix %}
                 <Accordion>
@@ -21,6 +25,7 @@
                 </Accordion>
             {% endfor %}
 		</div>
+	{% endif %}
 		<div class="max-w-[600px] my-s12 mx-auto">
             <Dropdown :options="[
                 {title: 'first'},
@@ -33,5 +38,30 @@
                 </template>
             </Dropdown>
 		</div>
+
+    	{% if tabsMatrix|length %}
+    		<div class="max-w-[600px] my-s12 mx-auto">
+                <Carbon-Tabs>
+                    <template v-slot:title>
+                    {% for block in tabsMatrix %}
+                            <Carbon-Tab>{{ block.tabTitle }}</Carbon-Tab>
+                    {% endfor %}
+                    </template>
+                    <template v-slot:content>
+                        {% for block in tabsMatrix %}
+                                <Carbon-Tab-Panel>{{ block.tabContent }}</Carbon-Tab-Panel>
+                        {% endfor %}
+                    </template>
+                </Carbon-Tabs>
+    		</div>
+    	{% endif %}
+   		<div class="max-w-[600px] my-s12 mx-auto text-center">
+            <Carbon-Button
+                anchor
+                type="text"
+                href="/test"
+                solid-classes="bg-blue-300 text-white px-s4 py-s2 rounded interact:bg-blue-500 interact:text-white"
+            >Test</Carbon-Button>
+        </div>
 	</section>
 {% endblock %}
