@@ -55,12 +55,20 @@
                 </Carbon-Tabs>
     		</div>
     	{% endif %}
-   		<div class="max-w-[600px] my-s12 mx-auto text-center">
+   		<div class="max-w-[600px] flex gap-x-s4 justify-center items-center container my-s12 mx-auto text-center">
             <Carbon-Button
-                anchor
+                type="outline"
+                outline-classes="border border-blue-300 text-blue-500 rounded interact:bg-blue-500 interact:text-white"
+            >Test</Carbon-Button>
+            <Carbon-Button
+                type="solid"
+                solid-classes="bg-blue-300 text-white rounded interact:bg-blue-500 interact:text-white"
+                sizing-classes="px-s6 py-s4"
+            >Test</Carbon-Button>
+            <Carbon-Button
                 type="text"
-                href="/test"
-                solid-classes="bg-blue-300 text-white px-s4 py-s2 rounded interact:bg-blue-500 interact:text-white"
+                text-classes="text-blue-500 rounded interact:text-blue-700"
+                sizing-classes="p-0"
             >Test</Carbon-Button>
         </div>
 	</section>
