@@ -1,5 +1,6 @@
 import 'vite/modulepreload-polyfill'
-import { createApp, defineAsyncComponent } from 'vue'
+import { createApp, defineAsyncComponent, reactive, toRefs } from 'vue'
+import { TransitionRoot, DialogDescription, DialogTitle } from '@headlessui/vue'
 
 /* Import CSS, which gets bundled _separately_ from JS  */
 import '@src/css/main.pcss'
@@ -10,6 +11,20 @@ const eagerComponents = import.meta.glob(
 	{ eager: true }
 )
 const lazyComponents = import.meta.glob('./components/**/*.lazy.vue')
+
+const headlessUiComponents = { TransitionRoot, DialogDescription, DialogTitle }
+
+const store = reactive({
+	modal: {
+		closeModal: () => {
+			store.modal.activeModalId = null
+		},
+		openModal: (id) => {
+			store.modal.activeModalId = id
+		},
+		activeModalId: null,
+	},
+})
 
 /* Create Vue */
 const app = createApp({
@@ -33,6 +48,13 @@ Object.entries(lazyComponents).forEach(([path, module]) => {
 	const componentDefinition = defineAsyncComponent(module)
 	app.component(componentName, componentDefinition)
 })
+
+//register imported components
+Object.entries(headlessUiComponents).forEach(([key, definition]) => {
+	app.component(key, definition)
+})
+
+app.config.globalProperties.$store = store
 
 /* Mount Vue to #app element */
 app.mount('#app')
