@@ -14,16 +14,14 @@ const lazyComponents = import.meta.glob('./components/**/*.lazy.vue')
 
 const headlessUiComponents = { TransitionRoot, DialogDescription, DialogTitle }
 
-const store = reactive({
-	modal: {
-		closeModal: () => {
-			store.modal.activeModalId = null
-		},
-		openModal: (id) => {
-			store.modal.activeModalId = id
-		},
-		activeModalId: null,
+const modals = reactive({
+	closeModal: () => {
+		modals.activeModalId = null
 	},
+	openModal: (id) => {
+		modals.activeModalId = id
+	},
+	activeModalId: null,
 })
 
 /* Create Vue */
@@ -54,7 +52,7 @@ Object.entries(headlessUiComponents).forEach(([key, definition]) => {
 	app.component(key, definition)
 })
 
-app.config.globalProperties.$store = store
+app.config.globalProperties.$modal = modal
 
 /* Mount Vue to #app element */
 app.mount('#app')

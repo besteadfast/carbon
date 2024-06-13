@@ -1,6 +1,6 @@
 <template>
 	<TransitionRoot
-		:show="$store.modal.activeModalId === modalId"
+		:show="$modals.activeModalId === modalId"
 		as="template"
 		enter="duration-200 ease-out"
 		enterFrom="opacity-0"
@@ -10,7 +10,7 @@
 		leaveTo="opacity-0"
 	>
 		<Dialog
-			@close="$store.modal.closeModal"
+			@close="$modals.closeModal"
 			class="relative z-50"
 			:unmount="false"
 		>
@@ -37,7 +37,7 @@
 					</slot>
 					<button
 						class="absolute top-s8 right-s8 px-s2"
-						@click="$store.modal.closeModal"
+						@click="$modals.closeModal"
 						type="button"
 						aria-label="Close modal"
 					>
