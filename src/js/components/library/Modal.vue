@@ -22,9 +22,8 @@
 				class="modal-container fixed inset-0 flex w-screen items-center justify-center"
 			>
 				<DialogPanel
-					:class="`${
-						hasOverscroll ? 'overflow-y-scroll' : ''
-					} modal-content w-[600px] h-auto relative bg-white`"
+					class="modal-content w-[600px] h-auto relative bg-white"
+					:class="{ 'overflow-y-auto': hasOverscroll }"
 				>
 					<slot>
 						<div class="modal-body">
