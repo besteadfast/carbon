@@ -1,6 +1,5 @@
 import { colors, icons, typography, shadows } from './carbon.mjs'
 import { interactVariantPlugin } from './plugins/interact.mjs'
-import { generateScreens } from './plugins/screens.mjs'
 const {
 	typographyElementsList,
 	typographyPlugin,
@@ -53,15 +52,13 @@ export default {
 			},
 		},
 		screens: {
-			...generateScreens({
-				'tiny': 375,
-				'xs': 560,
-				'sm': 640,
-				'md': 768,
-				'lg': 1024,
-				'xl': 1300,
-				'2xl': 1600,
-			}),
+			'tiny': '375px',
+			'xs': '560px',
+			'sm': '640px',
+			'md': '768px',
+			'lg': '1024px',
+			'xl': '1300px',
+			'2xl':'1600px',
 		},
 		maxWidth: {
 			none: 'none',
