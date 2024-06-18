@@ -15,21 +15,21 @@
 			:unmount="false"
 		>
 			<div
-				class="modal-background fixed inset-0 flex w-screen items-center justify-center bg-black/30"
+				class="fixed inset-0 flex w-screen items-center justify-center bg-black/30"
 				aria-hidden="true"
 			/>
 			<div
-				class="modal-container fixed inset-0 flex w-screen items-center justify-center"
+				class="fixed inset-0 flex w-screen items-center justify-center"
 			>
 				<DialogPanel
-					class="modal-content w-[600px] h-auto relative bg-white"
+					class="w-[600px] h-auto relative bg-white"
 					:class="{ 'overflow-y-auto': hasOverscroll }"
 				>
 					<slot>
 						<div class="modal-body">
 							<div class="px-s8 py-s10 border-t-2 border-gray-200 group">
-								<DialogTitle>Title</DialogTitle>
-								<DialogDescription> Description </DialogDescription>
+								<ModalTitle>Title</ModalTitle>
+								<ModalDescription> Description </ModalDescription>
 								<p>Other Body content</p>
 							</div>
 						</div>
