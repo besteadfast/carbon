@@ -42,7 +42,7 @@ return [
 	'transformGifs' => false,
 
 	// Whether the GraphQL API should be enabled
-	'enableGql' => false,
+	'enableGql' => true,
 
 	// The timezone of the site
 	'timezone' => 'America/New_York',

@@ -41,12 +41,64 @@ const generateIconSafelist = () =>
 		[]
 	)
 
+const generateDelaySafelist = function (start, end, numbersOnly) {
+	
+	const values = Array.from(
+		{ length: Math.floor((end - start) / 50) + 1 },
+		(_, index) => start + (index * 50)
+	);
+
+	if( numbersOnly ) {
+		console.log(numbersOnly)
+		return values.reduce((acc, value) => {
+			acc[value] = `${value}ms`;
+			return acc;
+		}, {});
+	} else {
+		return values.map(value => `delay-${value}`)
+	}
+	
+}
+
 export default {
 	important: '#appcss',
 	content: ['./src/templates/**/*.{twig,html}', './src/js/**/*.{js,vue}'],
-	safelist: [...typographyElementsList, ...generateIconSafelist()],
+	safelist: [...generateDelaySafelist(100, 600), ...typographyElementsList, ...generateIconSafelist()],
 	theme: {
 		extend: {
+			transitionDelay: generateDelaySafelist(100, 600, true),
+			keyframes: {
+				left: {
+					'0%': {
+						transform: 'translateX(-25%)',
+						opacity: 0
+					},
+					'50%': {
+						transform: 'translateX(5%)'
+					},
+					'100%': {
+						transform: 'translateX(0)',
+						opacity: 100
+					}
+				},
+				right: {
+					'0%': {
+						transform: 'translateX(25%)',
+						opacity: 0
+					},
+					'50%': {
+						transform: 'translateX(-5%)'
+					},
+					'100%': {
+						transform: 'translateX(0)',
+						opacity: 100
+					}
+				}
+			},
+			animation: {
+				'from-left': 'left 0.5s linear',
+				'from-right': 'right 0.5s linear'
+			},
 			borderWidth: {
 				1: '1px',
 			},

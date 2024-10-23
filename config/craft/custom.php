@@ -9,6 +9,6 @@
  */
 
 return [
-	// 'graphqlToken' => 'xxxyyyzzz' // example token
+	'graphqlToken' => 'xxxyyyzzz' // example token
 ];
 ?>

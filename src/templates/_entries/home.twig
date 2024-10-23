@@ -2,6 +2,11 @@
 
 {% block main %}
 	<section class="py-s12 my-s12">
-		<h1 class="text-center">Site Homepage</h1>
+		<Loader>
+			<h1 class="text-center">Site Homepage</h1>
+		</Loader>
+		<Loader :delay="`600`">
+			<p>Testing...</p>
+		</Loader>
 	</section>
 {% endblock %}
