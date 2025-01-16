@@ -1,0 +1,27 @@
+{% macro renderChildNodes(node) %}
+	{% for nodeContent in node.content %}
+		{% if (nodeContent.text|length > 0 and nodeContent.marks|length == 0) %}
+			<span>{{ nodeContent.rawNode.text }}</span>
+		{% else %}
+			{{nodeContent.renderHtml()}}
+		{% endif %}
+	{% endfor %}
+{% endmacro %}
+
+{% macro inline(field) %}
+	{% set nodes = field.all() %}
+	{% for node in nodes %}
+		{% if node.type == 'paragraph' %}
+			{{_self.renderChildNodes(node)}}
+		{% elseif node.type == 'bulletList' %}
+			<ul class="mt-s5">
+				{% for listItem in node.content %}
+					<li class="flex gap-s5 items-start [&:not(:first-child)]:mt-s3">
+						<img class="w-s7 flex-shrink-0 pt-[2px]" src="{{getenv('SPACES_BASE_URL')}}/icons/check-32-orange.svg">
+						<p class="before:mt-0 after:mb-0 font-bold pt-[2px] pb-s1">{{ _self.renderChildNodes(listItem) }}</p>
+					</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	{% endfor %}
+{% endmacro %}

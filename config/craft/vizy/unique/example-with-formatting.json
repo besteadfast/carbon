@@ -1,0 +1,26 @@
+{
+	"buttons": ["formatting", "bold", "italic", "link", "undo", "redo", "html"],
+	"formatting": [
+		"paragraph",
+		{
+			"title": "Small Paragraph",
+			"type": "paragraph",
+			"attrs": { "class": "t-p-sm" },
+			"editorStyle": ".t-p-sm {font-size:.75rem}"
+		},
+		{
+			"title": "Large Paragraph",
+			"type": "paragraph",
+			"attrs": { "class": "t-p-lg" },
+			"editorStyle": ".t-p-lg {font-size:1rem}"
+		},
+		{
+			"svg": "h2",
+			"title": "Heading",
+			"type": "heading",
+			"attrs": { "level": "2", "class": "t-h4" },
+			"editorStyle": ".t-h4 {font-size:1.125rem; font-weight:bold;}"
+		}
+	],
+	"toolbarFixed": true
+}
