@@ -61,12 +61,13 @@ export default defineConfig(({ command }) => {
 			preserveSymlinks: true,
 		},
 		server: {
-			host: 'localhost',
+			host: true,
 			port: 8080,
 			strictPort: true,
 			watch: {
 				ignored: ['**/storage/**', '**/vendor/**', '**/web/cpresources/**'],
 			},
+			cors: true,
 		},
 	}
 })

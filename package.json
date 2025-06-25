@@ -15,7 +15,6 @@
 		"@fancyapps/ui": "^4.0.31",
 		"@headlessui/vue": "^1.6.7",
 		"@splidejs/vue-splide": "^0.6.7",
-		"@tailwindcss/line-clamp": "^0.4.2",
 		"@vuepic/vue-datepicker": "^3.6.3",
 		"algoliasearch": "^4.14.2",
 		"axios": "^1.2.1",

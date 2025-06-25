@@ -5,8 +5,6 @@ const {
 	typographyPlugin,
 } = require('./plugins/typography.mjs')
 
-const lineClampPlugin = require('@tailwindcss/line-clamp')
-
 const rootFontSize = 16
 
 const convertToRem = function (pixelValue) {
@@ -133,5 +131,5 @@ export default {
 	corePlugins: {
 		container: false,
 	},
-	plugins: [typographyPlugin, lineClampPlugin, interactVariantPlugin],
+	plugins: [typographyPlugin, interactVariantPlugin],
 }

@@ -7,6 +7,6 @@
 1. Run `ddev import-db --src="seed.sql"`
 1. Run `ddev composer install`
 1. Run `ddev craft setup/security-key`
-1. Run `yarn add`
+1. Run `yarn`
 1. Run `yarn dev`
 1. Profit?
