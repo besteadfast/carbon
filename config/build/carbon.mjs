@@ -40,30 +40,126 @@ export const shadows = {
 }
 
 export const typography = {
-	fonts: {
-		// Example font
-		work: {
-			family: ['Work Sans', 'sans-serif'],
-			offset: { cap: 0.19, midCap: 0.24, baseline: 0.16 },
+	fonts: 	{
+		"area-normal": {
+			"family": [
+				"area-normal",
+				"sans-serif"
+			],
+			"metrics": {
+				"capHeight": 780,
+				"ascent": 1300,
+				"descent": -340,
+				"lineGap": 0,
+				"unitsPerEm": 1000,
+				"xHeight": 558
+			}
 		},
+		"area-normal-light": {
+			"family": [
+				"area-normal-light",
+				"sans-serif"
+			],
+			"metrics": {
+				"capHeight": 780,
+				"ascent": 1263,
+				"descent": -248,
+				"lineGap": 0,
+				"unitsPerEm": 1000,
+				"xHeight": 551
+			}
+		},
+		"inter-variable": {
+			"family": [
+				"inter-variable",
+				"sans-serif"
+			],
+			"metrics": {
+				"capHeight": 2048,
+				"ascent": 3072,
+				"descent": -900,
+				"lineGap": 0,
+				"unitsPerEm": 2816,
+				"xHeight": 1536
+			}
+		},
+		"geist-mono": {
+			"family": [
+				"Geist Mono",
+				"sans-serif"
+			],
+			"metrics": {
+				"capHeight": 710,
+				"ascent": 1005,
+				"descent": -295,
+				"lineGap": 0,
+				"unitsPerEm": 1000,
+				"xHeight": 530
+			}
+		},
+		"playwrite-dk-uloopet-guides": {
+			"family": [
+				"Playwrite DK Uloopet Guides",
+				"sans-serif"
+			],
+			"metrics": {
+				"capHeight": 875,
+				"ascent": 1275,
+				"descent": -375,
+				"lineGap": 0,
+				"unitsPerEm": 1000,
+				"xHeight": 500
+			}
+		}
 	},
-
 	styles: {
-		// Example typography style
 		h1: {
-			fontFamily: 'work',
+			fontFamily: 'inter-variable',
 			fontWeight: 'bold',
 			fontSize: { base: '40', md: '52' },
 			lineHeight: { base: '130' },
-			letterSpacing: '1-2',
+			letterSpacing: '-025',
 			uppercase: false,
-			spacing: {
-				'h1': { base: 's9', md: 's9' },
-				'h2': { base: 's10', md: 's9' },
-				'p': { base: 's10', md: 's12' },
-				'p-sm': { base: 's10', md: 's12' },
-				'list': { base: 's10', md: 's12' },
-			},
+		},
+		h2: {
+			fontFamily: 'area-normal',
+			fontWeight: 'bold',
+			fontSize: { base: '32', md: '40' },
+			lineHeight: { base: '130' },
+			letterSpacing: '-025',
+			uppercase: false,
+		},
+		h3: {
+			fontFamily: 'area-normal-light',
+			fontWeight: 'bold',
+			fontSize: { base: '24', md: '32' },
+			lineHeight: { base: '130' },
+			letterSpacing: '0',
+			uppercase: false,
+		},
+		h4: {
+			fontFamily: 'geist-mono',
+			fontWeight: 'bold',
+			fontSize: { base: '20', md: '24' },
+			lineHeight: { base: '130' },
+			letterSpacing: '0',
+			uppercase: true,
+		},
+		p: {
+			fontFamily: 'geist-mono',
+			fontWeight: 'normal',
+			fontSize: { base: '16', md: '18' },
+			lineHeight: { base: '160' },
+			letterSpacing: '0',
+			uppercase: false,
+		},
+		'p-sm': {
+			fontFamily: 'area-normal',
+			fontWeight: 'normal',
+			fontSize: { base: '14', md: '16' },
+			lineHeight: { base: '160' },
+			letterSpacing: '0',
+			uppercase: false,
 		},
 	},
 }

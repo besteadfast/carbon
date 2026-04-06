@@ -20,4 +20,5 @@
 
 return [
 	// 'api' => 'graphql/api',
+	'test-typography' => ['template' => 'test-typography'],
 ];

@@ -1,28 +1,12 @@
-const plugin = require('tailwindcss/plugin')
+import tailwindcssPlugin from 'tailwindcss/plugin'
 import { colors, typography } from '../carbon.mjs'
+import { createStyleObject } from '@capsizecss/core'
 
-const typographyElements = {
-	'sh': ['.faux-sh'],
-	'h1': ["h1:not([class*='faux-'])", '.faux-h1'],
-	'h2': ["h2:not([class*='faux-'])", '.faux-h2'],
-	'h3': ["h3:not([class*='faux-'])", '.faux-h3'],
-	'h4': ["h4:not([class*='faux-'])", '.faux-h4'],
-	'h5': ["h5:not([class*='faux-'])", '.faux-h5'],
-	'h6': ["h6:not([class*='faux-'])", '.faux-h6'],
-	'p-lg': ['.faux-p-lg'],
-	'p': ["p:not([class*='faux-'])", '.faux-p'],
-	'p-sm': ['.faux-p-sm'],
-	'p-xs': ['.faux-p-xs'],
-	'list': [
-		'ul:not(.list-none):not(.splide__list)',
-		'ol:not(.list-none):not(.splide__list)',
-	],
-	'list-1': ':is(ul, ol):not(.list-none):not(.splide__list) > li',
-	'list-2': ':is(ul, ol):not(.list-none):not(.splide__list) :is(ul, ol) > li',
-	'list-3':
-		':is(ul, ol):not(.list-none):not(.splide__list) :is(ul, ol) :is(ul, ol) > li',
-	'bq': ["blockquote:not([class*='faux-'])", '.faux-blockquote'],
-}
+const typographyElements = Object.keys(typography.styles).reduce((acc, curr) => {
+	return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'].includes(curr)
+		? { ...acc, [curr]: [`.t-${curr}`, `${curr}:not([class^='t-']):not([class*=' t-'])`] }
+		: { ...acc, [curr]: [`.t-${curr}`] }
+}, {})
 
 let ruleSetsByScreen = {}
 
@@ -39,8 +23,11 @@ const getScreenSize = (screen, theme) => {
 		: theme('screens.' + screen).replace('px', '')
 }
 
-const getOffset = (family) => {
-	return typography.fonts[family].offset
+const getMetrics = (family) => {
+	if (!typography.fonts[family]) {
+		throw Error(`Font family "${family}" not found in typography.fonts`	)
+	}
+	return typography.fonts[family].metrics
 }
 
 const generateRuleSetsByScreen = (screenSize, selector, rules) => {
@@ -55,22 +42,54 @@ const generateRuleSetsByScreen = (screenSize, selector, rules) => {
 	}
 }
 
-const calculateOffset = (lineHeight, offset) => {
-	let lineHeightDifference = lineHeight / 100 - 1
-	let lineHeightScale = lineHeightDifference / 2
+const generateCapsizeStyles = (settings, fontSize, lineHeight) => {
+	if (!settings.fontFamily || !fontSize || !lineHeight) {
+		return {}
+	}
+	
+	const metrics = getMetrics(settings.fontFamily)
+	
+	const pixelLineHeight = parseInt(fontSize) * (parseInt(lineHeight) / 100)
+	
+	const shouldUseMidCap = !settings.uppercase
+	
+	if (shouldUseMidCap) {
+		// Difference between cap position and mid-cap position
+		const midCapDiff = (metrics.capHeight - metrics.xHeight) / 2
+		
+		// Generate base Capsize styles
+		const baseStyles = createStyleObject({
+			fontSize: parseInt(fontSize),
+			leading: pixelLineHeight,
+			fontMetrics: metrics,
+		})
+		
+		// Adjust the ::before pseudo-element for mid-cap trimming
+		if (baseStyles['::before']) {
+			const originalMargin = parseFloat(baseStyles['::before'].marginBottom)
+			baseStyles['::before'].marginBottom = `${originalMargin - (midCapDiff / metrics.unitsPerEm)}em`
+		}
+				
+		return baseStyles
+	}
 
-	return offset + lineHeightScale
+	// For uppercase text, use normal cap height trimming
+	return createStyleObject({
+		fontSize: parseInt(fontSize),
+		leading: pixelLineHeight,
+		fontMetrics: metrics,
+	})
 }
 
 export const typographyElementsList = Object.values(typographyElements).flat()
 
-export const typographyPlugin = plugin(function ({ addBase, theme }) {
+export const typographyPlugin = tailwindcssPlugin(function ({ addBase, theme }) {
 	// sh
 	if (typography.styles) {
 		Object.entries(typography.styles).forEach(([element, settings]) => {
 			// handle root-level styles
 			const selector = generateIs(typographyElements[element])
-			generateRuleSetsByScreen('base', selector, {
+			const baseStyles = {
 				...(settings.fontFamily && {
 					fontFamily: theme('fontFamily.' + settings.fontFamily),
 				}),
@@ -81,10 +100,9 @@ export const typographyPlugin = plugin(function ({ addBase, theme }) {
 					letterSpacing: theme('letterSpacing.' + settings.letterSpacing),
 				}),
 				...(settings.uppercase && { textTransform: 'uppercase' }),
-				...(settings.fontSize && settings.lineHeight && { paddingTop: '1px' }),
-				...(settings.fontSize &&
-					settings.lineHeight && { paddingBottom: '1px' }),
-			})
+			}
+			
+			generateRuleSetsByScreen('base', selector, baseStyles)
 
 			// handle text color
 			if (settings.textColor) {
@@ -94,102 +112,42 @@ export const typographyPlugin = plugin(function ({ addBase, theme }) {
 				})
 			}
 
-			// handle font sizes (responsively)
-			if (settings.fontSize) {
-				Object.entries(settings.fontSize).forEach(([screen, fontSize]) => {
+			// handle font sizes and line heights with Capsize
+			if (settings.fontSize && settings.lineHeight) {
+				// Get all unique screens from fontSize and lineHeight
+				const screens = new Set([
+					...Object.keys(settings.fontSize),
+					...Object.keys(settings.lineHeight)
+				])
+				
+				screens.forEach(screen => {
+					const fontSize = settings.fontSize[screen] || settings.fontSize.base
+					const lineHeight = settings.lineHeight[screen] || settings.lineHeight.base
 					const screenSize = getScreenSize(screen, theme)
-					generateRuleSetsByScreen(screenSize, selector, {
-						fontSize: theme('fontSize.' + fontSize),
-					})
-				})
-			}
-
-			// handle line height (responsively)
-			if (settings.lineHeight) {
-				Object.entries(settings.lineHeight).forEach(([screen, lineHeight]) => {
-					const screenSize = getScreenSize(screen, theme)
-					generateRuleSetsByScreen(screenSize, selector, {
-						lineHeight: theme('lineHeight.' + lineHeight),
-					})
-				})
-			}
-
-			// handle offset (responsively)
-			if (settings.lineHeight) {
-				Object.entries(settings.lineHeight).forEach(([screen, lineHeight]) => {
-					const topOffset = settings.uppercase ? 'cap' : 'midCap'
-					const screenSize = getScreenSize(screen, theme)
-					generateRuleSetsByScreen(screenSize, selector + '::before', {
-						content: '""',
-						width: 0,
-						height: 0,
-						display: 'block',
-						marginTop:
-							'calc(-' +
-							calculateOffset(
-								lineHeight,
-								getOffset(settings.fontFamily)[topOffset]
-							) +
-							'em - 1px)',
-					})
-					generateRuleSetsByScreen(screenSize, selector + '::after', {
-						content: '""',
-						width: 0,
-						height: 0,
-						display: 'block',
-						marginBottom:
-							'calc(-' +
-							calculateOffset(
-								lineHeight,
-								getOffset(settings.fontFamily).baseline
-							) +
-							'em - 1px)',
-					})
-
-					// List-specific offset styling
-					if (element.includes('list-')) {
-						// Add top offset to nested uls since the li text won't have a negative bottom margin
-						generateRuleSetsByScreen(
-							screenSize,
-							selector + ' > ul::before, ' + selector + ' > ol::before',
-							{
-								content: '""',
-								width: 0,
-								height: 0,
-								display: 'block',
-								marginBottom:
-									'calc(-' +
-									calculateOffset(
-										lineHeight,
-										getOffset(settings.fontFamily).baseline
-									) +
-									'em - 1px)',
-							}
+					
+					if (fontSize && lineHeight) {
+						// Generate Capsize styles
+						const capsizeStyles = generateCapsizeStyles(
+							{ ...settings, element }, 
+							fontSize, 
+							lineHeight
 						)
-						// Add offset to bullets so they line up correctly
-						generateRuleSetsByScreen(
-							screenSize,
-							selector +
-								' > .bullet::before, ' +
-								selector +
-								' > .bullet::after',
-							{
-								marginTop:
-									'calc(-' +
-									calculateOffset(
-										lineHeight,
-										getOffset(settings.fontFamily)[topOffset]
-									) +
-									'em)',
-								marginBottom:
-									'calc(-' +
-									calculateOffset(
-										lineHeight,
-										getOffset(settings.fontFamily).baseline
-									) +
-									'em)',
-							}
-						)
+						
+						// Apply Capsize styles (which includes font size and line height)
+						generateRuleSetsByScreen(screenSize, selector, capsizeStyles)
+						
+						// Apply pseudo-elements separately if they exist
+						if (capsizeStyles['::before']) {
+							generateRuleSetsByScreen(screenSize, selector + '::before', {
+								...capsizeStyles['::before']
+							})
+						}
+						
+						if (capsizeStyles['::after']) {
+							generateRuleSetsByScreen(screenSize, selector + '::after', {
+								...capsizeStyles['::after']
+							})
+						}
 					}
 				})
 			}

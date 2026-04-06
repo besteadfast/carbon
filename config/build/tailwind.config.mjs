@@ -1,9 +1,9 @@
 import { colors, icons, typography, shadows } from './carbon.mjs'
 import { interactVariantPlugin } from './plugins/interact.mjs'
-const {
+import {
 	typographyElementsList,
 	typographyPlugin,
-} = require('./plugins/typography.mjs')
+} from './plugins/typography.mjs'
 
 const rootFontSize = 16
 
@@ -72,26 +72,47 @@ export default {
 				...acc,
 				[font]: typography.fonts[font].family,
 			}),
-			{}
+			{
+				// Add default font families
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				serif: ['Georgia', 'serif'],
+				mono: ['Menlo', 'Monaco', 'monospace'],
+			}
 		),
+		fontWeight: {
+			thin: '100',
+			light: '300',
+			normal: '400',
+			medium: '500',
+			semibold: '600',
+			bold: '700',
+			extrabold: '800',
+			black: '900',
+		},
 		fontSize: generateSteps(8, 72, 1, (val) => {
 			return convertToRem(val)
 		}),
 		lineHeight: {
 			100: '1',
+			130: '1.3',
+			160: '1.6',
 			// 110: '1.1',
 			// 120: '1.2',
 		},
 		letterSpacing: {
-			'-1': '-.01em',
+			'-01': '-.01em',
+			'-025': '-.025em',
 			'0': '0',
-			'1': '.01em',
-			'1-2': '.012em',
-			'2': '.02em',
-			'3': '.03em',
-			'4': '.04em',
-			'5': '.05em',
-			'6': '.06em',
+			'004':'.004em',
+			'01': '.01em',
+			'02': '.02em',
+			'03': '.03em',
+			'04': '.04em',
+			'05': '.05em',
+			'06': '.06em',
+			'07': '.07em',
+			'08': '.08em',
+			'09': '.09em',
 			'10': '.1em',
 			'20': '.20em',
 		},
@@ -105,8 +126,9 @@ export default {
 		},
 		borderRadius: {
 			none: '0px',
-			DEFAULT: '0px', // This value should be replaced with the most common border radius value
+			DEFAULT: '20px', // This value should be replaced with the most common border radius value
 			full: '50%',
+			pill: '9999px',
 		},
 		spacing: () => ({
 			inherit: 'inherit',

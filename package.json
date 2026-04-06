@@ -5,6 +5,7 @@
 	"author": "Steadfast Design Firm",
 	"license": "UNLICENSED",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "vite --config ./config/build/vite.config.js",
 		"build": "vite build --config ./config/build/vite.config.js",
@@ -12,6 +13,9 @@
 		"build-icons": "svgo -r -f ./web/assets/icons/12 -o ./web/assets/icons/12 --config=./config/build/svgo/icons.js"
 	},
 	"dependencies": {
+		"@capsizecss/core": "^4.1.3",
+		"@capsizecss/metrics": "^3.6.2",
+		"@capsizecss/unpack": "^4.0.0",
 		"@fancyapps/ui": "^4.0.31",
 		"@headlessui/vue": "^1.6.7",
 		"@splidejs/vue-splide": "^0.6.7",
